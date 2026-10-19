@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>English Lab — Preview</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f7f5f0;
+      --fg: #1f2a24;
+      --card: #fff;
+      --muted: #5c6b63;
+      --primary: #3d7a5f;
+      --accent: #d8ebe0;
+      --border: #d5ddd7;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Pretendard, "Noto Sans KR", sans-serif;
+      color: var(--fg);
+      background:
+        radial-gradient(circle at top left, rgba(61,122,95,.08), transparent 40%),
+        radial-gradient(circle at top right, rgba(184,140,72,.06), transparent 35%),
+        var(--bg);
+      min-height: 100vh;
+    }
+    h1, h2, .brand { font-family: Fraunces, Georgia, serif; }
+    .topbar {
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    header {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 14px 20px 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .brand { font-size: 28px; color: var(--primary); margin: 0; }
+    .tagline { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
+    .tabs {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+      background: transparent;
+      border-radius: 0;
+      padding: 12px 14px 11px;
+      margin-bottom: -1px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #6b7280;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color .15s, border-color .15s;
+    }
+    .tab svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+    .tab:hover { color: #374151; }
+    .tab.active {
+      color: #111827;
+      border-bottom-color: #111827;
+    }
+    main { max-width: 960px; margin: 0 auto; padding: 24px 20px 64px; }
+    .hero h1 { font-size: 36px; margin: 4px 0 8px; }
+    .hero p { color: var(--muted); margin: 0; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 28px 0;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(213,221,215,.8);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 1px 2px rgba(31,42,36,.04);
+    }
+    .stat-label { font-size: 12px; color: var(--muted); }
+    .stat-value { font-size: 22px; font-weight: 600; margin-top: 4px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+    .card h2 { font-size: 18px; margin: 0 0 8px; color: var(--primary); }
+    .card .desc { font-size: 14px; color: var(--muted); line-height: 1.5; margin-bottom: 14px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      border: 1px solid var(--border);
+      background: #eef2ee;
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-size: 13px;
+      color: var(--fg);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      height: 44px;
+      padding: 0 20px;
+      border-radius: 12px;
+      background: var(--primary);
+      color: #f7fff9;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+    }
+    .btn.outline {
+      background: #fff;
+      color: var(--fg);
+      border: 1px solid var(--border);
+    }
+    .btn:disabled { opacity: .4; cursor: not-allowed; }
+    .day {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .badge {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 500;
+      background: #e8f5ee;
+      color: #067647;
+    }
+    .badge.upcoming { background: #eef2ee; color: var(--muted); }
+    .muted { color: var(--muted); font-size: 13px; }
+    .section-title { font-size: 24px; margin: 0 0 16px; }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .passage {
+      background: #fbfaf7;
+      border-left: 3px solid var(--primary);
+      padding: 14px 16px;
+      line-height: 1.7;
+      font-size: 14px;
+      white-space: pre-wrap;
+      margin: 12px 0;
+    }
+    .option {
+      display: flex;
+      gap: 10px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .option:hover, .option.selected { border-color: var(--primary); background: rgba(216,235,224,.5); }
+    textarea {
+      width: 100%;
+      min-height: 90px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      font: inherit;
+      resize: vertical;
+    }
+    label { font-size: 14px; font-weight: 600; display: block; margin: 14px 0 6px; }
+    .help { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+    /* Words: mode toggle */
+    .mode-toggle {
+      display: inline-flex;
+      background: #eef2ee;
+      border-radius: 12px;
+      padding: 4px;
+      gap: 4px;
+      margin: 12px 0 20px;
+    }
+    .mode-toggle button {
+      border: none;
+      background: transparent;
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .mode-toggle button.active {
+      background: #fff;
+      color: var(--fg);
+      box-shadow: 0 1px 2px rgba(0,0,0,.06);
+    }
+
+    /* Flashcards */
+    .flash-wrap { max-width: 480px; margin: 0 auto; }
+    .flash-progress {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .flash-card {
+      perspective: 1000px;
+      height: 260px;
+      cursor: pointer;
+      margin-bottom: 16px;
+    }
+    .flash-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform .45s;
+      transform-style: preserve-3d;
+    }
+    .flash-card.flipped .flash-inner { transform: rotateY(180deg); }
+    .flash-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(31,42,36,.06);
+    }
+    .flash-face.back {
+      transform: rotateY(180deg);
+      background: #f3faf6;
+    }
+    .flash-word { font-size: 36px; font-weight: 700; letter-spacing: -.02em; }
+    .flash-pos { font-size: 13px; color: var(--muted); margin-top: 8px; }
+    .flash-meaning { font-size: 28px; font-weight: 600; color: var(--primary); }
+    .flash-example { font-size: 14px; color: var(--muted); margin-top: 14px; line-height: 1.5; max-width: 360px; }
+    .flash-hint { font-size: 12px; color: var(--muted); margin-top: 16px; }
+    .flash-nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Word list */
+    .word-list { display: none; }
+    .word-list.active { display: block; }
+    .flash-wrap.hidden { display: none; }
+    .word-row {
+      display: grid;
+      grid-template-columns: 140px 70px 1fr;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid #e8ece9;
+      font-size: 14px;
+      align-items: start;
+    }
+    .word-row:last-child { border-bottom: none; }
+    .word-en { font-weight: 600; font-size: 16px; }
+    .word-pos { color: var(--muted); font-size: 12px; padding-top: 4px; }
+    .word-ko { color: var(--fg); }
+    .word-ex { color: var(--muted); font-size: 13px; margin-top: 4px; line-height: 1.45; }
+
+    @media (max-width: 720px) {
+      .stats, .grid-2 { grid-template-columns: 1fr 1fr; }
+      .day { flex-direction: column; align-items: flex-start; }
+      .word-row { grid-template-columns: 1fr; gap: 4px; }
+    }
+    @media (max-width: 480px) {
+      .stats, .grid-2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <header>
+      <div>
+        <p class="brand">English Lab</p>
+        <p class="tagline">Your English journey, one day at a time.</p>
+      </div>
+      <div style="text-align:right;font-size:14px">
+        <strong>기은</strong><div class="muted">학생</div>
+      </div>
+    </header>
+    <nav class="tabs" aria-label="미리보기 탭">
+      <button class="tab active" data-panel="dash" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        대시보드
+      </button>
+      <button class="tab" data-panel="learn" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        레슨 (Lessons)
+      </button>
+      <button class="tab" data-panel="words" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8M8 11h5"/></svg>
+        단어 (Words)
+      </button>
+      <button class="tab" data-panel="hw" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        숙제 (Homeworks)
+      </button>
+    </nav>
+  </div>
+
+  <main>
+    <!-- DASHBOARD -->
+    <section id="dash" class="panel active">
+      <div class="hero">
+        <p class="muted">2026년 10월 16일 (금)</p>
+        <h1>안녕하세요, 기은 님</h1>
+        <p>숙제는 다음 주 월요일(10/19)부터 매일 열립니다.</p>
+      </div>
+
+      <div class="stats">
+        <div class="card"><div class="stat-label">연속 학습</div><div class="stat-value">0일</div></div>
+        <div class="card"><div class="stat-label">레슨</div><div class="stat-value">7</div></div>
+        <div class="card"><div class="stat-label">숙제 완료</div><div class="stat-value">0/7</div></div>
+        <div class="card"><div class="stat-label">최근 숙달 점수</div><div class="stat-value">—</div></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h2>레슨 (Lessons)</h2>
+          <p class="desc">수업 자료는 언제든 다시 볼 수 있어요.</p>
+          <button class="btn outline" type="button" onclick="showPanel('learn')">레슨 열기</button>
+        </div>
+        <div class="card">
+          <h2>단어 (Words)</h2>
+          <p class="desc">중1 교과서 수준 단어 500개 · 플래시카드 / 리스트</p>
+          <button class="btn outline" type="button" onclick="showPanel('words')">단어 연습</button>
+        </div>
+      </div>
+
+      <h2 class="section-title">이번 주 숙제 일정</h2>
+      <p class="muted" style="margin:-8px 0 16px">월요일부터 매일 숙제 · 10월 19일(월) 시작</p>
+
+      <div class="card day">
+        <div>
+          <strong>Day 1</strong> <span class="badge upcoming">예정</span>
+          <span class="muted">10월 19일 (월)</span>
+          <p class="muted" style="margin:6px 0 0">Lesson 5: Enjoying Art</p>
+        </div>
+        <span class="chip">잠김</span>
+      </div>
+      <div class="card day">
+        <div>
+          <strong>Day 2</strong> <span class="badge upcoming">예정</span>
+          <span class="muted">10월 20일 (화)</span>
+          <p class="muted" style="margin:6px 0 0">Lesson 5: Reading &amp; writing</p>
+        </div>
+        <span class="chip">잠김</span>
+      </div>
+      <div class="card day">
+        <div>
+          <strong>Day 3</strong> <span class="badge upcoming">예정</span>
+          <span class="muted">10월 21일 (수)</span>
+          <p class="muted" style="margin:6px 0 0">Lesson 6: Amazing Korea</p>
+        </div>
+        <span class="chip">잠김</span>
+      </div>
+      <div class="card day">
+        <div>
+          <strong>Day 4</strong> <span class="badge upcoming">예정</span>
+          <span class="muted">10월 22일 (목)</span>
+          <p class="muted" style="margin:6px 0 0">Lesson 6: Vocabulary &amp; dialogue</p>
+        </div>
+        <span class="chip">잠김</span>
+      </div>
+      <div class="card day">
+        <div>
+          <strong>Day 5</strong> <span class="badge upcoming">예정</span>
+          <span class="muted">10월 23일 (금)</span>
+          <p class="muted" style="margin:6px 0 0">Lesson 7: Save Earth, Save Us</p>
+        </div>
+        <span class="chip">잠김</span>
+      </div>
+      <div class="card day">
+        <div>
+          <strong>Day 6</strong> <span class="badge upcoming">예정</span>
+          <span class="muted">10월 24일 (토)</span>
+          <p class="muted" style="margin:6px 0 0">Lesson 8: Dive into Stories</p>
+        </div>
+        <span class="chip">잠김</span>
+      </div>
+      <div class="card day">
+        <div>
+          <strong>Day 7</strong> <span class="badge upcoming">예정</span>
+          <span class="muted">10월 25일 (일)</span>
+          <p class="muted" style="margin:6px 0 0">Lessons 5–8: 종합 복습</p>
+        </div>
+        <span class="chip">잠김</span>
+      </div>
+    </section>
+
+    <!-- LESSONS -->
+    <section id="learn" class="panel">
+      <p class="muted">Day 1 · Enjoying Art</p>
+      <h1 class="brand" style="font-size:32px;margin:4px 0 12px">레슨 (Lessons)</h1>
+      <div class="card" style="margin-bottom:16px;font-size:12px;color:var(--muted)">
+        연습 자료(Practice Material) — 교과서 원문을 복제하지 않은 원작 학습 자료입니다.
+      </div>
+      <div class="card" style="margin-bottom:16px">
+        <h2>오늘의 학습 목표</h2>
+        <ul style="margin:8px 0 0;padding-left:20px;font-size:14px;line-height:1.7">
+          <li>재귀대명사를 올바르게 사용할 수 있다.</li>
+          <li>목적의 to부정사를 문장에서 파악할 수 있다.</li>
+          <li>미술 주제 글을 읽고 세부 정보를 파악할 수 있다.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Reading — A Quiet Afternoon at the Art Museum</h2>
+        <div class="passage">Last Saturday, Mina visited an art museum by herself.
+She wanted to look at the paintings carefully.
+The artist used bright colors to express happiness.
+Mina sat on a bench to take notes about the artwork.</div>
+        <p class="muted">문장을 클릭하면 한국어 해석을 볼 수 있어요.</p>
+      </div>
+    </section>
+
+    <!-- WORDS -->
+    <section id="words" class="panel">
+      <p class="muted">중학교 1학년 · 교과서 수준 핵심 단어 500개</p>
+      <h1 class="brand" style="font-size:32px;margin:4px 0 4px">단어 (Words)</h1>
+      <p class="muted">플래시카드로 넘기며 외우거나, 리스트로 쭉 읽어 보세요.</p>
+
+      <div class="mode-toggle" role="tablist">
+        <button type="button" class="active" id="mode-flash" onclick="setWordMode('flash')">플래시카드</button>
+        <button type="button" id="mode-list" onclick="setWordMode('list')">리스트</button>
+      </div>
+
+      <div style="margin-bottom:16px">
+        <input
+          id="word-search"
+          type="search"
+          placeholder="영어 단어 또는 한국어 뜻 검색…"
+          style="width:100%;max-width:420px;height:44px;border:1px solid var(--border);border-radius:12px;padding:0 14px;font:inherit;background:#fff"
+          oninput="onWordSearch(this.value)"
+        />
+        <p class="help" id="word-filter-hint">전체 500개</p>
+      </div>
+
+      <div class="flash-wrap" id="flash-wrap">
+        <div class="flash-progress"><span id="flash-index">1</span> / <span id="flash-total">500</span></div>
+        <div class="flash-card" id="flash-card" onclick="flipCard()">
+          <div class="flash-inner">
+            <div class="flash-face front">
+              <div class="flash-word" id="fc-word">school</div>
+              <div class="flash-pos" id="fc-pos">n.</div>
+              <div class="flash-hint">클릭해서 뜻 보기</div>
+            </div>
+            <div class="flash-face back">
+              <div class="flash-meaning" id="fc-meaning">학교</div>
+              <div class="flash-example" id="fc-example">I walk to school every day.<br/>나는 매일 학교까지 걸어간다.</div>
+              <div class="flash-hint">다시 클릭해서 앞면</div>
+            </div>
+          </div>
+        </div>
+        <div class="flash-nav">
+          <button class="btn outline" type="button" id="btn-prev" onclick="prevCard()">← 이전</button>
+          <button class="btn outline" type="button" onclick="flipCard()">뒤집기</button>
+          <button class="btn" type="button" id="btn-next" onclick="nextCard()">다음 →</button>
+        </div>
+      </div>
+
+      <div class="word-list card" id="word-list"></div>
+    </section>
+
+    <!-- HOMEWORKS -->
+    <section id="hw" class="panel">
+      <p class="muted">숙제 (Homeworks) · 매일 · 10/19(월)부터</p>
+      <h1 class="brand" style="font-size:32px;margin:4px 0 16px">문제 미리보기</h1>
+      <div class="card" style="margin-bottom:16px">
+        <p class="desc" style="margin:0">이번 주 월요일부터 매일 숙제가 열려요. 지금은 미리보기만 가능합니다.</p>
+      </div>
+      <div class="card">
+        <p style="font-weight:600;margin-top:0">다음 글의 주제로 가장 적절한 것은? <span class="muted">[4점]</span></p>
+        <div class="passage">Last Saturday, Mina visited an art museum by herself. She wanted to look at the paintings carefully. The artist used bright colors to express happiness…</div>
+
+        <div class="option selected" onclick="selectOpt(this)"><strong>①</strong> 미술관에서의 특별한 만남</div>
+        <div class="option" onclick="selectOpt(this)"><strong>②</strong> 미술 감상과 자기만의 즐거움</div>
+        <div class="option" onclick="selectOpt(this)"><strong>③</strong> 유명 화가의 인생 이야기</div>
+        <div class="option" onclick="selectOpt(this)"><strong>④</strong> 벽화 제작의 어려움</div>
+        <div class="option" onclick="selectOpt(this)"><strong>⑤</strong> 안내원의 하루 일과</div>
+
+        <label for="reason">왜 그렇게 생각하나요?</label>
+        <textarea id="reason" placeholder="이 답을 선택한 이유를 자유롭게 설명해 보세요."></textarea>
+        <p class="help">정답이라고 생각한 이유나 문법적 근거를 적어보세요.</p>
+
+        <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
+          <button class="btn outline" type="button">이전</button>
+          <button class="btn outline" type="button">다음</button>
+          <button class="btn" type="button">제출하기</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="preview-words.js"></script>
+  <script>
+    const ALL_WORDS = window.ENGLISH_LAB_WORDS || [];
+    let filteredWords = ALL_WORDS.slice();
+    let cardIndex = 0;
+
+    function showPanel(id) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.panel === id));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.querySelectorAll('.tab').forEach(t => {
+      t.addEventListener('click', () => showPanel(t.dataset.panel));
+    });
+
+    function selectOpt(el) {
+      el.parentElement.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    function onWordSearch(q) {
+      const query = (q || '').trim().toLowerCase();
+      filteredWords = !query
+        ? ALL_WORDS.slice()
+        : ALL_WORDS.filter(w =>
+            w.word.toLowerCase().includes(query) ||
+            w.ko.toLowerCase().includes(query) ||
+            w.ex.toLowerCase().includes(query)
+          );
+      cardIndex = 0;
+      document.getElementById('word-filter-hint').textContent =
+        query ? `검색 결과 ${filteredWords.length}개 / 전체 ${ALL_WORDS.length}개` : `전체 ${ALL_WORDS.length}개`;
+      renderCard();
+      renderList();
+    }
+
+    function renderCard() {
+      const w = filteredWords[cardIndex];
+      if (!w) {
+        document.getElementById('fc-word').textContent = '없음';
+        document.getElementById('fc-pos').textContent = '';
+        document.getElementById('fc-meaning').textContent = '검색 결과가 없어요';
+        document.getElementById('fc-example').textContent = '';
+        document.getElementById('flash-index').textContent = '0';
+        document.getElementById('flash-total').textContent = '0';
+        document.getElementById('btn-prev').disabled = true;
+        document.getElementById('btn-next').disabled = true;
+        return;
+      }
+      document.getElementById('fc-word').textContent = w.word;
+      document.getElementById('fc-pos').textContent = w.pos;
+      document.getElementById('fc-meaning').textContent = w.ko;
+      document.getElementById('fc-example').innerHTML = w.ex + '<br/>' + w.exKo;
+      document.getElementById('flash-index').textContent = String(cardIndex + 1);
+      document.getElementById('flash-total').textContent = String(filteredWords.length);
+      document.getElementById('flash-card').classList.remove('flipped');
+      document.getElementById('btn-prev').disabled = cardIndex === 0;
+      document.getElementById('btn-next').disabled = cardIndex >= filteredWords.length - 1;
+    }
+
+    function flipCard() {
+      if (!filteredWords.length) return;
+      document.getElementById('flash-card').classList.toggle('flipped');
+    }
+
+    function nextCard() {
+      if (cardIndex < filteredWords.length - 1) {
+        cardIndex += 1;
+        renderCard();
+      }
+    }
+
+    function prevCard() {
+      if (cardIndex > 0) {
+        cardIndex -= 1;
+        renderCard();
+      }
+    }
+
+    function setWordMode(mode) {
+      document.getElementById('mode-flash').classList.toggle('active', mode === 'flash');
+      document.getElementById('mode-list').classList.toggle('active', mode === 'list');
+      document.getElementById('flash-wrap').classList.toggle('hidden', mode !== 'flash');
+      document.getElementById('word-list').classList.toggle('active', mode === 'list');
+    }
+
+    function renderList() {
+      const list = document.getElementById('word-list');
+      if (!filteredWords.length) {
+        list.innerHTML = '<p class="muted" style="margin:0">검색 결과가 없어요.</p>';
+        return;
+      }
+      list.innerHTML = filteredWords.map((w, i) => `
+        <div class="word-row">
+          <div>
+            <div class="word-en">${i + 1}. ${w.word}</div>
+          </div>
+          <div class="word-pos">${w.pos}</div>
+          <div>
+            <div class="word-ko">${w.ko}</div>
+            <div class="word-ex">${w.ex}<br/>${w.exKo}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      const wordsOpen = document.getElementById('words').classList.contains('active');
+      if (!wordsOpen) return;
+      if (e.key === 'ArrowRight') nextCard();
+      if (e.key === 'ArrowLeft') prevCard();
+      if (e.key === ' ' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        flipCard();
+      }
+    });
+
+    renderCard();
+    renderList();
+  </script>
+</body>
+</html>
