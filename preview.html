@@ -286,10 +286,267 @@
     .word-ko { color: var(--fg); }
     .word-ex { color: var(--muted); font-size: 13px; margin-top: 4px; line-height: 1.45; }
 
+    /* Lessons */
+    .lesson-picker {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .lesson-pill {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      text-align: left;
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 14px;
+      padding: 12px 14px;
+      cursor: pointer;
+      font: inherit;
+      color: var(--fg);
+      transition: border-color .15s, background .15s;
+    }
+    .lesson-pill:hover { border-color: var(--primary); }
+    .lesson-pill.active { border-color: var(--primary); background: #eef7f1; box-shadow: inset 0 0 0 1px var(--primary); }
+    .pill-no { font-size: 12px; font-weight: 600; color: var(--primary); }
+    .pill-title { font-size: 13px; line-height: 1.35; }
+    @media (max-width: 720px) { .lesson-picker { grid-template-columns: 1fr 1fr; } }
+    .sub-tabs { flex-wrap: wrap; }
+    .l5-sub { display: none; }
+    .l5-sub.active { display: block; }
+    .summary-ko {
+      background: #f3faf6;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 4px 0 12px;
+    }
+    .summary-ko strong { color: var(--primary); margin-right: 6px; }
+    .page-img {
+      display: block;
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .passage-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .book-page {
+      background: #fffdf8;
+      border: 1px solid #eadfcd;
+      border-radius: 18px;
+      padding: 36px 44px 44px;
+      box-shadow: 0 1px 2px rgba(31, 42, 36, .04), 0 12px 32px rgba(120, 90, 50, .06);
+    }
+    .book-tag {
+      display: inline-block;
+      background: #e8603c;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 6px;
+      padding: 3px 10px;
+      letter-spacing: .02em;
+    }
+    .book-title {
+      font-family: Fraunces, Georgia, serif;
+      font-size: 30px;
+      color: #c2492b;
+      margin: 10px 0 24px;
+      line-height: 1.25;
+    }
+    .book-para {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 19px;
+      line-height: 2.05;
+      color: #2b2a26;
+      margin: 0 0 18px;
+    }
+    .book-empty { color: var(--muted); font-size: 15px; }
+    .sent { cursor: pointer; border-radius: 4px; transition: background .15s; }
+    .sent:hover { background: #f6efe1; }
+    .sent.selected { background: #fbe7d9; }
+    .sent:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+    .sent mark.vocab { cursor: pointer; }
+    .sent mark.vocab:hover { background: #c9e8d5; }
+    .sn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: #e8603c;
+      color: #fff;
+      font-family: Pretendard, sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      margin-right: 3px;
+      vertical-align: super;
+      line-height: 1;
+    }
+    @media (max-width: 720px) {
+      .book-page { padding: 24px 20px 28px; }
+      .book-para { font-size: 17px; }
+    }
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(31, 42, 36, .18);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s;
+      z-index: 40;
+    }
+    .drawer-backdrop.open { opacity: 1; pointer-events: auto; }
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100vh;
+      width: min(440px, 100%);
+      background: #fff;
+      border-left: 1px solid var(--border);
+      box-shadow: -12px 0 32px rgba(31, 42, 36, .08);
+      transform: translateX(100%);
+      transition: transform .25s ease;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+    }
+    .drawer.open { transform: translateX(0); }
+    .drawer-close {
+      align-self: flex-end;
+      margin: 12px 12px 0;
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 10px;
+      background: #f1f3f1;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .drawer-body { overflow-y: auto; padding: 4px 22px 32px; }
+    .drawer-sentence { font-size: 18px; line-height: 1.6; margin: 4px 0 8px; }
+    .drawer-word { font-size: 30px; font-weight: 700; margin: 0; }
+    .drawer-meaning { font-size: 18px; font-weight: 600; color: var(--primary); margin: 0 0 12px; }
+    .drawer-h { font-size: 15px; margin: 20px 0 8px; }
+    .drawer-block {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 10px;
+      background: #fff;
+    }
+    .drawer-block summary { cursor: pointer; font-weight: 600; font-size: 14px; }
+    .chip-btn { cursor: pointer; font: inherit; font-size: 13px; }
+    .chip-btn:hover { border-color: var(--primary); }
+    .drawer-sent-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fafbfa;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      font: inherit;
+      font-size: 14px;
+      line-height: 1.5;
+      cursor: pointer;
+    }
+    .drawer-sent-link:hover { border-color: var(--primary); }
+    .summary-toggle summary { cursor: pointer; font-size: 13px; color: var(--primary); font-weight: 600; }
+    .summary-toggle .summary-ko { margin-top: 8px; }
+    .sent-list { list-style: none; margin: 0; padding: 0; }
+    .sent-row {
+      display: flex;
+      gap: 12px;
+      padding: 10px 8px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .sent-row:hover { background: #f6f8f6; }
+    .sent-num {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: #f3e3dc;
+      color: #b4532a;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+    .sent-en { font-size: 16px; line-height: 1.65; }
+    .sent-ko { display: none; font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .sent-row.open .sent-ko { display: block; }
+    mark.vocab { background: #e3f2e9; color: inherit; border-radius: 4px; padding: 0 2px; }
+    .empty-passage {
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      font-size: 14px;
+      color: var(--muted);
+      text-align: center;
+    }
+    .l5-input, .l5-short {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font: inherit;
+      background: #fff;
+    }
+    input.l5-input, .l5-short { height: 44px; }
+    .grammar-card summary { cursor: pointer; font-weight: 600; font-size: 15px; }
+    .mini-label { font-size: 12px; color: var(--muted); margin: 10px 0 6px; font-weight: 600; }
+    .ex-box { background: #f8f9f8; border-radius: 10px; padding: 8px 12px; margin-bottom: 6px; font-size: 14px; }
+    .ex-box .ok { color: #067647; }
+    .ex-box .ng { color: #b42318; }
+    .tip { font-size: 13px; color: #8a5a00; background: #fff8e6; border-radius: 10px; padding: 8px 12px; }
+    .parse-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .parse-chunk { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .parse-text { padding: 8px 12px; font-size: 15px; font-weight: 500; background: #fff; }
+    .parse-role { padding: 4px 12px; font-size: 11px; background: #eef2ee; color: var(--muted); }
+    .q-title { font-weight: 600; margin-top: 0; line-height: 1.6; }
+    .q-card.q-ok { border-color: #a6d9bd; }
+    .q-card.q-ng { border-color: #f3b4ae; }
+    .option.is-answer { border-color: #067647; background: #e8f5ee; }
+    .option.is-wrong { border-color: #b42318; background: #fef3f2; }
+    .result-badge { display: inline-flex; border-radius: 999px; padding: 2px 10px; font-size: 12px; margin-left: 6px; }
+    .result-badge.ok { background: #e8f5ee; color: #067647; }
+    .result-badge.ng { background: #fef3f2; color: #b42318; }
+    .feedback { border-radius: 12px; padding: 12px; margin-top: 12px; font-size: 14px; line-height: 1.6; }
+    .feedback.ok { background: #f0f9f4; }
+    .feedback.ng { background: #fef6f5; }
+    .feedback p { margin: 4px 0; }
+    .fb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+    .fb-grid > div { background: #fff; border-radius: 10px; padding: 8px 10px; }
+    .fb-grid .mini-label { margin-top: 0; }
+    .score-card { display: flex; gap: 24px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .missing-card { border-color: #f3b4ae; background: #fef6f5; margin-bottom: 8px; font-size: 14px; }
+    .missing-card ul { margin: 8px 0 0; padding-left: 18px; }
+    .missing-card a { color: #b42318; }
+
     @media (max-width: 720px) {
       .stats, .grid-2 { grid-template-columns: 1fr 1fr; }
       .day { flex-direction: column; align-items: flex-start; }
       .word-row { grid-template-columns: 1fr; gap: 4px; }
+      .fb-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 480px) {
       .stats, .grid-2 { grid-template-columns: 1fr; }
@@ -419,27 +676,20 @@
 
     <!-- LESSONS -->
     <section id="learn" class="panel">
-      <p class="muted">Day 1 · Enjoying Art</p>
-      <h1 class="brand" style="font-size:32px;margin:4px 0 12px">레슨 (Lessons)</h1>
-      <div class="card" style="margin-bottom:16px;font-size:12px;color:var(--muted)">
-        연습 자료(Practice Material) — 교과서 원문을 복제하지 않은 원작 학습 자료입니다.
+      <div class="lesson-picker" id="lesson-picker"></div>
+      <p class="muted" id="lesson-kicker"></p>
+      <h1 class="brand" id="lesson-title" style="font-size:32px;margin:4px 0 4px"></h1>
+      <p class="muted" id="lesson-subtitle" style="margin:0 0 4px"></p>
+
+      <div class="mode-toggle sub-tabs" role="tablist">
+        <button type="button" class="active" data-l5-sub="passage" onclick="L5.showSub('passage')">본문</button>
+        <button type="button" data-l5-sub="comp" onclick="L5.showSub('comp')">본문 이해 문제</button>
+        <button type="button" data-l5-sub="quiz" onclick="L5.showSub('quiz')">단어 시험</button>
       </div>
-      <div class="card" style="margin-bottom:16px">
-        <h2>오늘의 학습 목표</h2>
-        <ul style="margin:8px 0 0;padding-left:20px;font-size:14px;line-height:1.7">
-          <li>재귀대명사를 올바르게 사용할 수 있다.</li>
-          <li>목적의 to부정사를 문장에서 파악할 수 있다.</li>
-          <li>미술 주제 글을 읽고 세부 정보를 파악할 수 있다.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h2>Reading — A Quiet Afternoon at the Art Museum</h2>
-        <div class="passage">Last Saturday, Mina visited an art museum by herself.
-She wanted to look at the paintings carefully.
-The artist used bright colors to express happiness.
-Mina sat on a bench to take notes about the artwork.</div>
-        <p class="muted">문장을 클릭하면 한국어 해석을 볼 수 있어요.</p>
-      </div>
+
+      <div id="l5-passage" class="l5-sub active"></div>
+      <div id="l5-comp" class="l5-sub"></div>
+      <div id="l5-quiz" class="l5-sub"></div>
     </section>
 
     <!-- WORDS -->
@@ -520,7 +770,18 @@ Mina sat on a bench to take notes about the artwork.</div>
     </section>
   </main>
 
+  <div id="drawer-backdrop" class="drawer-backdrop" onclick="L5.closeDrawer()"></div>
+  <aside id="drawer" class="drawer" aria-hidden="true" aria-label="문장·단어 설명">
+    <button type="button" class="drawer-close" aria-label="닫기" onclick="L5.closeDrawer()">✕</button>
+    <div id="drawer-body" class="drawer-body"></div>
+  </aside>
+
   <script src="preview-words.js"></script>
+  <script src="preview-lesson5.js"></script>
+  <script src="preview-lesson6.js"></script>
+  <script src="preview-lesson7.js"></script>
+  <script src="preview-lesson8.js"></script>
+  <script src="preview-lessons-app.js"></script>
   <script>
     const ALL_WORDS = window.ENGLISH_LAB_WORDS || [];
     let filteredWords = ALL_WORDS.slice();

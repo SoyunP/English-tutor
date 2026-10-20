@@ -1,0 +1,300 @@
+/* Lesson 7 · Topic 3 — You're an Environmental Superhero! */
+(function () {
+  const PARAGRAPHS = [
+    {
+      id: "p1",
+      title: "문단 1 · 환경 슈퍼히어로 소개",
+      summaryKo:
+        "오염은 큰 문제이다. 다행히 세 명의 슈퍼히어로가 환경을 보호하기 위해 일하고 있고, 세상을 깨끗하게 만들고 싶어 한다. 글쓴이는 독자에게 그들과 함께하겠느냐고 묻는다.",
+      en: "",
+    },
+    {
+      id: "p2",
+      title: "문단 2 · Recycle Wizard (재활용 마법사)",
+      summaryKo:
+        "사람들은 자원을 너무 많이 낭비하지만 재활용으로 자원을 지킬 수 있다. 예를 들어 종이 1,000kg을 재활용하면 나무 약 19그루와 물 29,000리터를 아낄 수 있다. 재활용을 잘하려면 플라스틱, 종이, 음식물 쓰레기, 유리를 올바른 통에 넣어야 한다. 활동: 아래 쓰레기를 알맞은 통에 선으로 연결하기.",
+      en: "",
+    },
+    {
+      id: "p3",
+      title: "문단 3 · Fashion Clever (패션 지킴이)",
+      summaryKo:
+        "사람들은 옷을 너무 자주 버린다. 버려진 옷은 쓰레기가 되어 환경을 해치고, 어떤 옷은 분해되는 데 200년이 넘게 걸린다. 옷을 너무 많이 사지 말고 오래 입어야 하며, 헌 옷으로 새 물건을 만들어 쓸모 있게 만들 수 있다. 활동: 헌 옷과 그것으로 만든 새 물건(쿠션, 가방, 연필꽂이, 컵 홀더)을 연결하기.",
+      en: "",
+    },
+    {
+      id: "p4",
+      title: "문단 4 · Water Saver (물 절약 지킴이)",
+      summaryKo:
+        "물은 매우 중요해서 물 없이는 살 수 없지만, 사람들은 물을 많이 낭비한다. 물을 아끼려면 샤워를 짧게 하고, 양치하는 동안 물을 잠그고, 수도꼭지를 완전히 잠갔는지 꼭 확인해야 한다. 활동: 그림을 보고 물을 아끼는 방법이면 O, 아니면 X 표시하기.",
+      en: "",
+    },
+  ];
+
+  const VOCAB = [
+    { word: "pollution", pos: "n.", ko: "오염", ex: "Air pollution is bad for our health.", exKo: "대기 오염은 우리 건강에 나쁘다." },
+    { word: "luckily", pos: "adv.", ko: "다행히, 운 좋게", ex: "Luckily, it stopped raining.", exKo: "다행히 비가 그쳤다." },
+    { word: "superhero", pos: "n.", ko: "슈퍼히어로", forms: ["superheroes"], ex: "My favorite superhero can fly.", exKo: "내가 가장 좋아하는 슈퍼히어로는 날 수 있다." },
+    { word: "protect", pos: "v.", ko: "보호하다", ex: "We should protect wild animals.", exKo: "우리는 야생 동물을 보호해야 한다." },
+    { word: "environment", pos: "n.", ko: "환경", forms: ["environmental"], ex: "Plastic bags hurt the environment.", exKo: "비닐봉지는 환경을 해친다." },
+    { word: "join", pos: "v.", ko: "함께하다, 가입하다", ex: "Will you join our club?", exKo: "우리 동아리에 함께할래?" },
+    { word: "wizard", pos: "n.", ko: "마법사; 명수", ex: "He is a wizard at math.", exKo: "그는 수학의 달인이다." },
+    { word: "waste", pos: "v./n.", ko: "낭비하다; 쓰레기", ex: "Don't waste your time.", exKo: "시간을 낭비하지 마." },
+    { word: "resource", pos: "n.", ko: "자원", forms: ["resources"], ex: "Water is an important resource.", exKo: "물은 중요한 자원이다." },
+    { word: "recycle", pos: "v.", ko: "재활용하다", forms: ["recycling"], ex: "We recycle cans and bottles.", exKo: "우리는 캔과 병을 재활용한다." },
+    { word: "for example", pos: "phr.", ko: "예를 들어", ex: "I like fruit, for example, apples and grapes.", exKo: "나는 과일, 예를 들어 사과와 포도를 좋아한다." },
+    { word: "save", pos: "v.", ko: "구하다; 아끼다, 절약하다", forms: ["saving"], ex: "Turn off the lights to save energy.", exKo: "에너지를 아끼기 위해 불을 꺼라." },
+    { word: "properly", pos: "adv.", ko: "제대로, 올바르게", ex: "Please use the machine properly.", exKo: "기계를 올바르게 사용하세요." },
+    { word: "correct", pos: "adj.", ko: "올바른, 정확한", ex: "Choose the correct answer.", exKo: "올바른 답을 고르시오." },
+    { word: "bin", pos: "n.", ko: "쓰레기통, 수거함", forms: ["bins"], ex: "Put the bottle in the blue bin.", exKo: "병을 파란 통에 넣어라." },
+    { word: "below", pos: "adv.", ko: "아래에", ex: "Look at the picture below.", exKo: "아래 그림을 보세요." },
+    { word: "piece", pos: "n.", ko: "조각, 하나", ex: "Can I have a piece of cake?", exKo: "케이크 한 조각 먹어도 될까?" },
+    { word: "throw away", pos: "phr.", ko: "버리다", ex: "Don't throw away the box.", exKo: "그 상자를 버리지 마." },
+    { word: "hurt", pos: "v.", ko: "해치다, 다치게 하다", ex: "Smoking can hurt your body.", exKo: "흡연은 몸을 해칠 수 있다." },
+    { word: "break down", pos: "phr.", ko: "분해되다", ex: "Some plastic takes years to break down.", exKo: "어떤 플라스틱은 분해되는 데 수년이 걸린다." },
+    { word: "item", pos: "n.", ko: "물품, 물건", forms: ["items"], ex: "This store sells many items.", exKo: "이 가게는 많은 물건을 판다." },
+    { word: "useful", pos: "adj.", ko: "쓸모 있는, 유용한", ex: "This app is very useful.", exKo: "이 앱은 아주 유용하다." },
+    { word: "match", pos: "v.", ko: "연결하다, 짝을 맞추다", ex: "Match the words with the pictures.", exKo: "단어와 그림을 연결하시오." },
+    { word: "clever", pos: "adj.", ko: "영리한, 똑똑한", ex: "That was a clever idea.", exKo: "그건 영리한 생각이었어." },
+    { word: "important", pos: "adj.", ko: "중요한", ex: "Sleep is important for growing kids.", exKo: "잠은 자라는 아이들에게 중요하다." },
+    { word: "without", pos: "prep.", ko: "~ 없이", ex: "I can't live without music.", exKo: "나는 음악 없이 살 수 없다." },
+    { word: "quick", pos: "adj.", ko: "빠른, 짧은", ex: "Let's have a quick lunch.", exKo: "점심을 빨리 먹자." },
+    { word: "turn off", pos: "phr.", ko: "(물·전기 등을) 끄다, 잠그다", ex: "Turn off the TV, please.", exKo: "TV 좀 꺼 줘." },
+    { word: "brush", pos: "v.", ko: "솔질하다, (이를) 닦다", ex: "Brush your teeth after meals.", exKo: "식사 후에 이를 닦아라." },
+    { word: "make sure", pos: "phr.", ko: "반드시 ~하다, 확인하다", ex: "Make sure that you lock the door.", exKo: "문을 꼭 잠그도록 해." },
+    { word: "tap", pos: "n.", ko: "수도꼭지", ex: "Water is dripping from the tap.", exKo: "수도꼭지에서 물이 떨어지고 있다." },
+    { word: "completely", pos: "adv.", ko: "완전히", ex: "I completely forgot about the test.", exKo: "나는 시험을 완전히 잊어버렸다." },
+  ];
+
+  const GRAMMAR = [
+    {
+      title: "① 현재진행형 be + V-ing",
+      body: "지금 하고 있는 일을 나타낼 때 be동사 + 동사-ing를 써요.",
+      inText: ["three superheroes are working to protect the environment"],
+      examples: [{ ok: "They are cleaning the beach now.", ng: "They cleaning the beach now." }],
+      tip: "주어가 복수(superheroes)이므로 are",
+    },
+    {
+      title: "② to부정사 — 부사적(목적) / 명사적 / 형용사적 용법",
+      body: "to protect the environment(환경을 보호하기 위해)는 목적을 나타내는 부사적 용법, want to make(만들기를 원하다)는 명사적 용법, ways to save water(물을 아끼는 방법)처럼 명사를 뒤에서 꾸미면 형용사적 용법이에요.",
+      inText: ["working to protect the environment", "They want to make the world clean", "Do you want to be a wizard at recycling?", "ways to save water"],
+      examples: [
+        { ok: "I went to the market to buy fruit. (목적)" },
+        { ok: "I want to be a doctor. (명사적)" },
+        { ok: "I need something to drink. (형용사적)" },
+      ],
+      tip: "해석으로 구별: ~하기 위해 / ~하는 것을 / ~할(하는)",
+    },
+    {
+      title: "③ make + 목적어 + 형용사 '~을 …하게 만들다'",
+      body: "make 뒤에 목적어와 형용사를 쓰면 '목적어를 (형용사) 상태로 만들다'라는 뜻이에요. 이때 부사를 쓰면 틀려요.",
+      inText: ["make the world clean", "Let's make old clothes useful", "It makes me sad"],
+      examples: [
+        { ok: "The song makes me happy.", ng: "The song makes me happily." },
+      ],
+      tip: "make + 목적어 + 형용사 (부사 ✗)",
+    },
+    {
+      title: "④ 조동사 should / can",
+      body: "should는 '~해야 한다'(충고), can은 '~할 수 있다', can't는 '~할 수 없다'예요. 뒤에는 동사원형이 와요.",
+      inText: ["you should recycle properly", "recycling can save them", "We can't live without it", "You can also create new items"],
+      examples: [{ ok: "You should wear a helmet.", ng: "You should wearing a helmet." }],
+      tip: "조동사 + 동사원형",
+    },
+    {
+      title: "⑤ 명령문 / 부정 명령문 / Let's",
+      body: "동사원형으로 시작하면 '~해라'(명령문), Don't + 동사원형은 '~하지 마라', Let's + 동사원형은 '~하자'예요.",
+      inText: ["Put plastic, paper, food waste, and glass in the correct bins", "Don't buy too many clothes", "Wear your clothes for a long time", "Take quick showers", "Let's make old clothes useful"],
+      examples: [
+        { ok: "Close the window.", ng: "Closes the window." },
+        { ok: "Don't run in the hallway." },
+      ],
+      tip: "명령문은 주어 없이 동사원형으로 시작",
+    },
+    {
+      title: "⑥ 동명사 주어 / 전치사 뒤 동명사",
+      body: "recycling(재활용하는 것)처럼 동명사가 주어가 될 수 있어요. 동명사 주어는 단수 취급해요. at, for 같은 전치사 뒤에도 동명사를 써요.",
+      inText: ["recycling can save them", "recycling 1,000 kilograms of paper can save about 19 trees", "a wizard at recycling", "amazing at saving water"],
+      examples: [{ ok: "Recycling is easy.", ng: "Recycling are easy." }],
+      tip: "be good / amazing at + V-ing",
+    },
+    {
+      title: "⑦ 접속사 that / while",
+      body: "know, make sure, be sure 뒤의 that은 '~라는 것'이라는 뜻으로 문장을 이끌어요. while은 '~하는 동안'이에요.",
+      inText: ["Did you know that some clothes take over 200 years to break down?", "make sure that you turn off the tap completely", "I'm sure that you got the right answers", "while you brush your teeth"],
+      examples: [{ ok: "I know that he is kind." }, { ok: "Don't use your phone while you walk." }],
+      tip: "that은 생략할 수 있어요.",
+    },
+    {
+      title: "⑧ 꼭 외울 표현",
+      body: "take + 시간 + to V(~하는 데 시간이 걸리다: take over 200 years to break down) · from A to B(A에서 B로) · match A with B(A와 B를 연결하다) · There are + 복수명사(~이 있다) · for a long time(오랫동안) · too many / too often(너무 많은 / 너무 자주) · a lot of(많은)",
+      inText: [],
+      examples: [],
+      tip: "대명사가 가리키는 말: them(첫 문단) = three superheroes / them(재활용) = resources / it = water / They(패션) = clothes",
+    },
+  ];
+
+  const ANALYSIS = [
+    { parts: [["three superheroes", "주어"], ["are working", "동사 (현재진행)"], ["to protect the environment", "목적 (to부정사)"]], ko: "세 명의 슈퍼히어로가 환경을 보호하기 위해 일하고 있다.", note: "to protect = 보호하기 위해" },
+    { parts: [["They", "주어"], ["want", "동사"], ["to make", "목적어 (to부정사)"], ["the world", "목적어"], ["clean", "형용사 (보어)"]], ko: "그들은 세상을 깨끗하게 만들고 싶어 한다.", note: "make + 목적어 + 형용사" },
+    { parts: [["recycling", "주어 (동명사)"], ["can save", "조동사 + 동사원형"], ["them", "목적어 (= resources)"]], ko: "재활용은 그것들(자원)을 지킬 수 있다.", note: "동명사 주어" },
+    { parts: [["you", "주어"], ["should recycle", "~해야 한다"], ["properly", "부사"]], ko: "너는 올바르게 재활용해야 한다.", note: "should + 동사원형" },
+    { parts: [["some clothes", "주어"], ["take", "동사 (시간이 걸리다)"], ["over 200 years", "시간"], ["to break down", "to부정사"]], ko: "어떤 옷들은 분해되는 데 200년 넘게 걸린다.", note: "take + 시간 + to V" },
+    { parts: [["Don't buy", "부정 명령문"], ["too many clothes", "목적어"]], ko: "옷을 너무 많이 사지 마라.", note: "Don't + 동사원형" },
+    { parts: [["Let's make", "~하자"], ["old clothes", "목적어"], ["useful", "형용사 (보어)"]], ko: "헌 옷을 쓸모 있게 만들자.", note: "Let's + 동사원형" },
+    { parts: [["It", "주어"], ["makes", "동사"], ["me", "목적어"], ["sad", "형용사 (보어)"]], ko: "그것은 나를 슬프게 만든다.", note: "makes me sad (sadly ✗)" },
+    { parts: [["Turn off", "명령문"], ["the water", "목적어"], ["while you brush your teeth", "~하는 동안"]], ko: "양치하는 동안 물을 잠가라.", note: "while + 주어 + 동사" },
+    { parts: [["make sure", "반드시 ~해라"], ["that you turn off the tap", "that절 (~라는 것)"], ["completely", "부사"]], ko: "수도꼭지를 완전히 잠그도록 꼭 확인해라.", note: "make sure that ~" },
+  ];
+
+  const QUESTIONS = [
+    {
+      id: "c1", points: 4,
+      prompt: "다음 글의 주제로 가장 적절한 것은?",
+      options: ["슈퍼히어로 영화의 인기", "환경을 지키기 위해 생활 속에서 실천할 수 있는 방법", "옷을 예쁘게 입는 방법", "물이 만들어지는 과정", "종이의 역사"],
+      answer: 1,
+      explain: "세 슈퍼히어로가 재활용, 옷 아껴 입기, 물 절약 등 환경을 지키는 생활 속 방법을 알려 주는 글이에요.",
+    },
+    {
+      id: "c2", points: 4,
+      prompt: "다음 글의 내용과 일치하지 않는 것은?",
+      options: [
+        "세 명의 슈퍼히어로가 환경을 보호하기 위해 일한다.",
+        "종이 1,000kg을 재활용하면 나무 약 19그루를 아낄 수 있다.",
+        "어떤 옷은 분해되는 데 200년 넘게 걸린다.",
+        "Water Saver는 샤워를 오래 하라고 조언한다.",
+        "양치하는 동안 물을 잠가야 한다.",
+      ],
+      answer: 3,
+      explain: "Water Saver는 'Take quick showers.'(샤워를 짧게 해라)라고 했어요.",
+    },
+    {
+      id: "c3", points: 4,
+      prompt: "Recycle Wizard가 재활용을 잘하는 방법으로 말한 것은?",
+      options: ["쓰레기를 한 통에 모두 넣는다.", "플라스틱, 종이, 음식물 쓰레기, 유리를 올바른 통에 넣는다.", "종이를 사용하지 않는다.", "쓰레기를 땅에 묻는다.", "물건을 새로 산다."],
+      answer: 1,
+      explain: "'Put plastic, paper, food waste, and glass in the correct bins.' — 종류별로 올바른 통에 분리해야 해요.",
+    },
+    {
+      id: "c4", points: 4,
+      prompt: "종이 1,000kg을 재활용하면 아낄 수 있는 물의 양은?",
+      options: ["약 19리터", "약 200리터", "약 1,000리터", "약 2,900리터", "약 29,000리터"],
+      answer: 4,
+      explain: "본문에 나무 약 19그루와 물 29,000리터를 아낄 수 있다고 나와 있어요. 숫자를 헷갈리지 않게 조심하세요.",
+    },
+    {
+      id: "c5", points: 4,
+      prompt: "Fashion Clever가 옷을 자주 버리면 안 된다고 말한 이유는?",
+      options: ["옷값이 비싸서", "버린 옷이 쓰레기가 되어 환경을 해쳐서", "옷이 금방 유행에 뒤처져서", "옷을 만드는 사람이 슬퍼해서", "옷장이 부족해서"],
+      answer: 1,
+      explain: "'They become waste and hurt the environment.' — 버린 옷은 쓰레기가 되어 환경을 해쳐요.",
+    },
+    {
+      id: "c6", points: 4,
+      prompt: "Fashion Clever의 조언으로 언급되지 않은 것은?",
+      options: ["옷을 너무 많이 사지 마라.", "옷을 오래 입어라.", "헌 옷으로 새 물건을 만들어라.", "유행하는 새 옷을 자주 사라.", "헌 옷을 쓸모 있게 만들자."],
+      answer: 3,
+      explain: "본문은 옷을 너무 많이 사지 말라고(Don't buy too many clothes) 했어요. ④는 반대 내용이에요.",
+    },
+    {
+      id: "c7", points: 4,
+      prompt: "물을 아끼는 방법으로 알맞지 않은 것은?",
+      options: ["샤워를 짧게 한다.", "양치하는 동안 물을 잠근다.", "수도꼭지를 완전히 잠근다.", "설거지할 때 물을 계속 틀어 둔다.", "물을 낭비하지 않는다."],
+      answer: 3,
+      explain: "물을 계속 틀어 두는 것은 물을 낭비하는 행동이에요. 나머지는 Water Saver가 말한 방법이에요.",
+    },
+    {
+      id: "c8", points: 4,
+      prompt: "다음 문장의 밑줄 친 them이 가리키는 것은?",
+      quote: "People waste too many resources. But recycling can save <u>them</u>.",
+      options: ["people", "resources", "superheroes", "trees", "bins"],
+      answer: 1,
+      explain: "바로 앞 문장의 resources(자원)를 가리켜요.",
+    },
+    {
+      id: "c9", points: 4,
+      prompt: "다음 문장의 밑줄 친 it이 가리키는 것은?",
+      quote: "Water is very important. We can't live without <u>it</u>.",
+      options: ["water", "the tap", "a shower", "the environment", "a bin"],
+      answer: 0,
+      explain: "앞 문장의 water(물)를 가리켜요. '우리는 물 없이 살 수 없다'라는 뜻이에요.",
+    },
+    {
+      id: "c10", points: 4,
+      prompt: "다음 빈칸에 들어갈 말로 가장 적절한 것은?",
+      quote: "You can create new items from your old clothes! Let's make old clothes ________.",
+      options: ["use", "useful", "usefully", "to use", "used to"],
+      answer: 1,
+      explain: "make + 목적어 + 형용사 구조이므로 형용사 useful(쓸모 있는)이 와야 해요.",
+    },
+    {
+      id: "c11", points: 5,
+      prompt: "다음 중 어법상 옳지 않은 문장은?",
+      options: [
+        "You should recycle properly.",
+        "Don't buy too many clothes.",
+        "It makes me sadly.",
+        "Take quick showers.",
+        "They want to make the world clean.",
+      ],
+      answer: 2,
+      explain: "make + 목적어 + 형용사이므로 sadly(부사)가 아니라 sad(형용사)를 써야 해요.",
+    },
+    {
+      id: "c12", points: 5,
+      prompt: "다음 중 밑줄 친 to부정사의 쓰임이 나머지와 다른 것은?",
+      options: [
+        "They are working <u>to protect</u> the environment.",
+        "I went to the store <u>to buy</u> milk.",
+        "They want <u>to make</u> the world clean.",
+        "She studied hard <u>to pass</u> the test.",
+        "He saved money <u>to buy</u> a bike.",
+      ],
+      answer: 2,
+      explain: "①②④⑤는 '~하기 위해'(목적, 부사적 용법)이고, ③은 want의 목적어 '~하는 것을'(명사적 용법)이에요.",
+    },
+    {
+      id: "c13", points: 4,
+      prompt: "다음 중 명령문이 아닌 것은?",
+      options: [
+        "Put paper in the correct bin.",
+        "Don't buy too many clothes.",
+        "Take quick showers.",
+        "People waste a lot of water.",
+        "Turn off the water.",
+      ],
+      answer: 3,
+      explain: "④는 주어(People)가 있는 평서문이에요. 명령문은 주어 없이 동사원형이나 Don't로 시작해요.",
+    },
+    {
+      id: "c14", points: 5, type: "short",
+      prompt: "괄호 안의 단어를 어법에 맞게 바꾸어 쓰시오.",
+      quote: "Some clothes take over 200 years (break) down.",
+      accepted: ["to break"],
+      modelAnswer: "to break",
+      explain: "take + 시간 + to부정사 '~하는 데 (시간)이 걸리다' 구조예요.",
+    },
+    {
+      id: "c15", points: 6, type: "short",
+      prompt: "다음 우리말과 일치하도록 주어진 단어를 모두 배열하여 문장을 완성하시오.",
+      quote: "양치하는 동안 물을 잠가라.\n[ off / turn / the water ] while you brush your teeth.",
+      accepted: ["turn off the water", "turn off the water while you brush your teeth", "turn the water off", "turn the water off while you brush your teeth"],
+      modelAnswer: "Turn off the water while you brush your teeth.",
+      explain: "명령문이므로 동사원형 Turn으로 시작하고, turn off(잠그다) 뒤에 목적어 the water를 써요.",
+    },
+  ];
+
+  window.LESSON_DATA = window.LESSON_DATA || {};
+  window.LESSON_DATA.l7 = {
+    lessonNo: 7,
+    lessonTitle: "Save Earth, Save Us",
+    title: "You're an Environmental Superhero!",
+    titleKo: "당신은 환경 슈퍼히어로입니다! — 재활용, 옷 아껴 입기, 물 절약 방법을 알려 주는 글",
+    storageKey: "englishlab.lesson7.topic3",
+    paragraphs: PARAGRAPHS,
+    vocab: VOCAB,
+    grammar: GRAMMAR,
+    analysis: ANALYSIS,
+    questions: QUESTIONS,
+  };
+})();
