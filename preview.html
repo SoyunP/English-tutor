@@ -286,6 +286,64 @@
     .word-ko { color: var(--fg); }
     .word-ex { color: var(--muted); font-size: 13px; margin-top: 4px; line-height: 1.45; }
 
+    /* Dashboard */
+    .dash-top { display: grid; grid-template-columns: 1fr 2fr; gap: 12px; margin: 24px 0 12px; }
+    .dday-card { background: #3d7a5f; color: #fff; border-color: #3d7a5f; }
+    .dday-card .stat-label, .dday-card .muted { color: #d8ebe0; }
+    .dday-value { font-family: Fraunces, Georgia, serif; font-size: 44px; font-weight: 700; line-height: 1.1; margin: 4px 0; }
+    .exam-edit { margin-top: 10px; font-size: 12px; }
+    .exam-edit summary { cursor: pointer; color: #d8ebe0; }
+    .exam-edit input { margin-top: 6px; border-radius: 8px; border: none; padding: 6px 8px; font: inherit; }
+    .progress-value { font-size: 32px; font-weight: 700; margin: 6px 0 10px; }
+    .progress-value span { font-size: 18px; color: var(--muted); font-weight: 500; }
+    .pbar { height: 12px; background: #e6ece8; border-radius: 999px; overflow: hidden; }
+    .pbar > div { height: 100%; background: var(--primary); border-radius: 999px; transition: width .4s; }
+    .pbar.thin { height: 6px; margin-top: 6px; }
+    .pbar.thin > div { background: #9cc5b0; }
+    .today-card { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 4px; border-color: #b9d8c6; background: #f3faf6; }
+    .today-title { font-size: 18px; font-weight: 700; margin: 4px 0; }
+    .hw-badge { display: inline-flex; border-radius: 999px; padding: 3px 10px; font-size: 12px; font-weight: 600; }
+    .hw-badge.upcoming { background: #eef2ee; color: var(--muted); }
+    .hw-badge.today { background: #e8f5ee; color: #067647; }
+    .hw-badge.progress { background: #fff4e5; color: #b54708; }
+    .hw-badge.done { background: #e8eefb; color: #175cd3; }
+    .hw-badge.late { background: #fef3f2; color: #b42318; }
+    .card.day.is-today { border-color: var(--primary); box-shadow: inset 3px 0 0 var(--primary); }
+    .week { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 12px 16px; margin-bottom: 12px; }
+    .week summary { cursor: pointer; display: flex; gap: 10px; align-items: center; padding: 4px 0; }
+    .week[open] summary { margin-bottom: 10px; }
+    .week-count { margin-left: auto; font-size: 13px; color: var(--muted); }
+    .week .card.day { box-shadow: none; }
+    .tag-kind { background: #e8eefb; color: #175cd3; }
+    @media (max-width: 720px) { .dash-top { grid-template-columns: 1fr; } }
+
+    /* Words filters */
+    .word-filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 4px; }
+    .word-filter {
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 999px;
+      padding: 7px 14px;
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+      color: var(--fg);
+    }
+    .word-filter span { color: var(--muted); font-size: 12px; margin-left: 2px; }
+    .word-filter.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .word-filter.active span { color: #d8ebe0; }
+    .word-tag {
+      display: inline-block;
+      background: #fbe7d9;
+      color: #8a3a20;
+      border-radius: 6px;
+      padding: 1px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+    .word-tag:empty { display: none; }
+
     /* Lessons */
     .lesson-picker {
       display: grid;
@@ -373,6 +431,58 @@
       margin: 0 0 18px;
     }
     .book-empty { color: var(--muted); font-size: 15px; }
+    .book-para.dialog { display: flex; gap: 10px; }
+    .speaker {
+      flex-shrink: 0;
+      min-width: 86px;
+      font-family: Pretendard, sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: #c2492b;
+      padding-top: 3px;
+    }
+    .book-cast {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 4px 0 24px;
+    }
+    .book-cast span {
+      background: #fbe7d9;
+      color: #8a3a20;
+      border-radius: 10px;
+      padding: 6px 12px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .book-check {
+      border-top: 1px dashed #e2d3bb;
+      margin-top: 28px;
+      padding-top: 18px;
+    }
+    .check-q { margin: 0 0 8px; font-size: 15px; color: #3d5a8a; font-weight: 600; }
+    .big-q {
+      margin-top: 14px;
+      background: #eef4fb;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #1f3d6b;
+    }
+    .big-q-tag {
+      background: #e8603c;
+      color: #fff;
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 12px;
+      margin-right: 6px;
+    }
+    .big-q details { margin-top: 8px; font-weight: 400; color: var(--fg); }
+    .big-q summary { cursor: pointer; font-size: 13px; color: var(--primary); }
+    @media (max-width: 720px) {
+      .book-para.dialog { flex-direction: column; gap: 0; }
+    }
     .sent { cursor: pointer; border-radius: 4px; transition: background .15s; }
     .sent:hover { background: #f6efe1; }
     .sent.selected { background: #fbe7d9; }
@@ -587,91 +697,7 @@
   <main>
     <!-- DASHBOARD -->
     <section id="dash" class="panel active">
-      <div class="hero">
-        <p class="muted">2026년 10월 16일 (금)</p>
-        <h1>안녕하세요, 기은 님</h1>
-        <p>숙제는 다음 주 월요일(10/19)부터 매일 열립니다.</p>
-      </div>
-
-      <div class="stats">
-        <div class="card"><div class="stat-label">연속 학습</div><div class="stat-value">0일</div></div>
-        <div class="card"><div class="stat-label">레슨</div><div class="stat-value">7</div></div>
-        <div class="card"><div class="stat-label">숙제 완료</div><div class="stat-value">0/7</div></div>
-        <div class="card"><div class="stat-label">최근 숙달 점수</div><div class="stat-value">—</div></div>
-      </div>
-
-      <div class="grid-2">
-        <div class="card">
-          <h2>레슨 (Lessons)</h2>
-          <p class="desc">수업 자료는 언제든 다시 볼 수 있어요.</p>
-          <button class="btn outline" type="button" onclick="showPanel('learn')">레슨 열기</button>
-        </div>
-        <div class="card">
-          <h2>단어 (Words)</h2>
-          <p class="desc">중1 교과서 수준 단어 500개 · 플래시카드 / 리스트</p>
-          <button class="btn outline" type="button" onclick="showPanel('words')">단어 연습</button>
-        </div>
-      </div>
-
-      <h2 class="section-title">이번 주 숙제 일정</h2>
-      <p class="muted" style="margin:-8px 0 16px">월요일부터 매일 숙제 · 10월 19일(월) 시작</p>
-
-      <div class="card day">
-        <div>
-          <strong>Day 1</strong> <span class="badge upcoming">예정</span>
-          <span class="muted">10월 19일 (월)</span>
-          <p class="muted" style="margin:6px 0 0">Lesson 5: Enjoying Art</p>
-        </div>
-        <span class="chip">잠김</span>
-      </div>
-      <div class="card day">
-        <div>
-          <strong>Day 2</strong> <span class="badge upcoming">예정</span>
-          <span class="muted">10월 20일 (화)</span>
-          <p class="muted" style="margin:6px 0 0">Lesson 5: Reading &amp; writing</p>
-        </div>
-        <span class="chip">잠김</span>
-      </div>
-      <div class="card day">
-        <div>
-          <strong>Day 3</strong> <span class="badge upcoming">예정</span>
-          <span class="muted">10월 21일 (수)</span>
-          <p class="muted" style="margin:6px 0 0">Lesson 6: Amazing Korea</p>
-        </div>
-        <span class="chip">잠김</span>
-      </div>
-      <div class="card day">
-        <div>
-          <strong>Day 4</strong> <span class="badge upcoming">예정</span>
-          <span class="muted">10월 22일 (목)</span>
-          <p class="muted" style="margin:6px 0 0">Lesson 6: Vocabulary &amp; dialogue</p>
-        </div>
-        <span class="chip">잠김</span>
-      </div>
-      <div class="card day">
-        <div>
-          <strong>Day 5</strong> <span class="badge upcoming">예정</span>
-          <span class="muted">10월 23일 (금)</span>
-          <p class="muted" style="margin:6px 0 0">Lesson 7: Save Earth, Save Us</p>
-        </div>
-        <span class="chip">잠김</span>
-      </div>
-      <div class="card day">
-        <div>
-          <strong>Day 6</strong> <span class="badge upcoming">예정</span>
-          <span class="muted">10월 24일 (토)</span>
-          <p class="muted" style="margin:6px 0 0">Lesson 8: Dive into Stories</p>
-        </div>
-        <span class="chip">잠김</span>
-      </div>
-      <div class="card day">
-        <div>
-          <strong>Day 7</strong> <span class="badge upcoming">예정</span>
-          <span class="muted">10월 25일 (일)</span>
-          <p class="muted" style="margin:6px 0 0">Lessons 5–8: 종합 복습</p>
-        </div>
-        <span class="chip">잠김</span>
-      </div>
+      <div id="dash-root"></div>
     </section>
 
     <!-- LESSONS -->
@@ -683,20 +709,24 @@
 
       <div class="mode-toggle sub-tabs" role="tablist">
         <button type="button" class="active" data-l5-sub="passage" onclick="L5.showSub('passage')">본문</button>
+        <button type="button" data-l5-sub="check" onclick="L5.showSub('check')">이해 체크</button>
         <button type="button" data-l5-sub="comp" onclick="L5.showSub('comp')">본문 이해 문제</button>
         <button type="button" data-l5-sub="quiz" onclick="L5.showSub('quiz')">단어 시험</button>
       </div>
 
       <div id="l5-passage" class="l5-sub active"></div>
+      <div id="l5-check" class="l5-sub"></div>
       <div id="l5-comp" class="l5-sub"></div>
       <div id="l5-quiz" class="l5-sub"></div>
     </section>
 
     <!-- WORDS -->
     <section id="words" class="panel">
-      <p class="muted">중학교 1학년 · 교과서 수준 핵심 단어 500개</p>
+      <p class="muted">Lesson 5–8 본문 단어 먼저 · 그다음 중1 기본 단어</p>
       <h1 class="brand" style="font-size:32px;margin:4px 0 4px">단어 (Words)</h1>
       <p class="muted">플래시카드로 넘기며 외우거나, 리스트로 쭉 읽어 보세요.</p>
+
+      <div class="word-filters" id="word-filters"></div>
 
       <div class="mode-toggle" role="tablist">
         <button type="button" class="active" id="mode-flash" onclick="setWordMode('flash')">플래시카드</button>
@@ -711,11 +741,11 @@
           style="width:100%;max-width:420px;height:44px;border:1px solid var(--border);border-radius:12px;padding:0 14px;font:inherit;background:#fff"
           oninput="onWordSearch(this.value)"
         />
-        <p class="help" id="word-filter-hint">전체 500개</p>
+        <p class="help" id="word-filter-hint"></p>
       </div>
 
       <div class="flash-wrap" id="flash-wrap">
-        <div class="flash-progress"><span id="flash-index">1</span> / <span id="flash-total">500</span></div>
+        <div class="flash-progress"><span id="flash-tag" class="word-tag"></span> <span id="flash-index">1</span> / <span id="flash-total">0</span></div>
         <div class="flash-card" id="flash-card" onclick="flipCard()">
           <div class="flash-inner">
             <div class="flash-face front">
@@ -742,31 +772,7 @@
 
     <!-- HOMEWORKS -->
     <section id="hw" class="panel">
-      <p class="muted">숙제 (Homeworks) · 매일 · 10/19(월)부터</p>
-      <h1 class="brand" style="font-size:32px;margin:4px 0 16px">문제 미리보기</h1>
-      <div class="card" style="margin-bottom:16px">
-        <p class="desc" style="margin:0">이번 주 월요일부터 매일 숙제가 열려요. 지금은 미리보기만 가능합니다.</p>
-      </div>
-      <div class="card">
-        <p style="font-weight:600;margin-top:0">다음 글의 주제로 가장 적절한 것은? <span class="muted">[4점]</span></p>
-        <div class="passage">Last Saturday, Mina visited an art museum by herself. She wanted to look at the paintings carefully. The artist used bright colors to express happiness…</div>
-
-        <div class="option selected" onclick="selectOpt(this)"><strong>①</strong> 미술관에서의 특별한 만남</div>
-        <div class="option" onclick="selectOpt(this)"><strong>②</strong> 미술 감상과 자기만의 즐거움</div>
-        <div class="option" onclick="selectOpt(this)"><strong>③</strong> 유명 화가의 인생 이야기</div>
-        <div class="option" onclick="selectOpt(this)"><strong>④</strong> 벽화 제작의 어려움</div>
-        <div class="option" onclick="selectOpt(this)"><strong>⑤</strong> 안내원의 하루 일과</div>
-
-        <label for="reason">왜 그렇게 생각하나요?</label>
-        <textarea id="reason" placeholder="이 답을 선택한 이유를 자유롭게 설명해 보세요."></textarea>
-        <p class="help">정답이라고 생각한 이유나 문법적 근거를 적어보세요.</p>
-
-        <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
-          <button class="btn outline" type="button">이전</button>
-          <button class="btn outline" type="button">다음</button>
-          <button class="btn" type="button">제출하기</button>
-        </div>
-      </div>
+      <div id="hw-root"></div>
     </section>
   </main>
 
@@ -776,15 +782,49 @@
     <div id="drawer-body" class="drawer-body"></div>
   </aside>
 
-  <script src="preview-words.js"></script>
-  <script src="preview-lesson5.js"></script>
-  <script src="preview-lesson6.js"></script>
-  <script src="preview-lesson7.js"></script>
-  <script src="preview-lesson8.js"></script>
-  <script src="preview-lessons-app.js"></script>
+  <script src="preview-words.js?v=20261020d"></script>
+  <script src="preview-lesson5.js?v=20261020d"></script>
+  <script src="preview-lesson6.js?v=20261020d"></script>
+  <script src="preview-lesson7.js?v=20261020d"></script>
+  <script src="preview-lesson8.js?v=20261020d"></script>
+  <script src="preview-understanding.js?v=20261020d"></script>
+  <script src="preview-passage-words.js?v=20261020d"></script>
+  <script src="preview-lessons-app.js?v=20261020d"></script>
+  <script src="preview-homework.js?v=20261020d"></script>
   <script>
-    const ALL_WORDS = window.ENGLISH_LAB_WORDS || [];
-    let filteredWords = ALL_WORDS.slice();
+    const WORD_GROUPS = [
+      { id: 'l5', label: 'Lesson 5' },
+      { id: 'l6', label: 'Lesson 6' },
+      { id: 'l7', label: 'Lesson 7' },
+      { id: 'l8', label: 'Lesson 8' },
+      { id: 'basic', label: '중1 기본 단어' },
+    ];
+
+    function buildWordDeck() {
+      const seen = new Set();
+      const deck = [];
+      const add = (w, group) => {
+        const key = w.word.toLowerCase();
+        if (seen.has(key)) return;
+        seen.add(key);
+        (w.forms || []).forEach(f => seen.add(f.toLowerCase()));
+        deck.push({ ...w, group });
+      };
+      const lessons = window.LESSON_DATA || {};
+      const extra = window.PASSAGE_EXTRA_WORDS || {};
+      ['l5', 'l6', 'l7', 'l8'].forEach(id => {
+        (lessons[id] ? lessons[id].vocab : []).forEach(w => add(w, id));
+        (extra[id] || []).forEach(w => add(w, id));
+      });
+      (window.ENGLISH_LAB_WORDS || []).forEach(w => add(w, 'basic'));
+      return deck;
+    }
+
+    const ALL_WORDS = buildWordDeck();
+    const groupLabel = id => (WORD_GROUPS.find(g => g.id === id) || {}).label || '';
+    let wordGroup = 'lessons';
+    let wordQuery = '';
+    let filteredWords = [];
     let cardIndex = 0;
 
     function showPanel(id) {
@@ -803,20 +843,45 @@
       el.classList.add('selected');
     }
 
-    function onWordSearch(q) {
-      const query = (q || '').trim().toLowerCase();
-      filteredWords = !query
-        ? ALL_WORDS.slice()
-        : ALL_WORDS.filter(w =>
-            w.word.toLowerCase().includes(query) ||
-            w.ko.toLowerCase().includes(query) ||
-            w.ex.toLowerCase().includes(query)
-          );
+    function inGroup(w, group) {
+      if (group === 'all') return true;
+      if (group === 'lessons') return w.group !== 'basic';
+      return w.group === group;
+    }
+
+    function renderWordFilters() {
+      const count = g => ALL_WORDS.filter(w => inGroup(w, g)).length;
+      const chips = [{ id: 'lessons', label: '본문 단어 전체' }, ...WORD_GROUPS, { id: 'all', label: '모두' }];
+      document.getElementById('word-filters').innerHTML = chips
+        .map(c => `<button type="button" class="word-filter ${wordGroup === c.id ? 'active' : ''}" onclick="setWordGroup('${c.id}')">${c.label} <span>${count(c.id)}</span></button>`)
+        .join('');
+    }
+
+    function applyWordFilter() {
+      const query = wordQuery.trim().toLowerCase();
+      filteredWords = ALL_WORDS.filter(w => inGroup(w, wordGroup)).filter(w =>
+        !query ||
+        w.word.toLowerCase().includes(query) ||
+        w.ko.toLowerCase().includes(query) ||
+        w.ex.toLowerCase().includes(query)
+      );
       cardIndex = 0;
+      const total = ALL_WORDS.filter(w => inGroup(w, wordGroup)).length;
       document.getElementById('word-filter-hint').textContent =
-        query ? `검색 결과 ${filteredWords.length}개 / 전체 ${ALL_WORDS.length}개` : `전체 ${ALL_WORDS.length}개`;
+        query ? `검색 결과 ${filteredWords.length}개 / ${total}개` : `${total}개`;
+      renderWordFilters();
       renderCard();
       renderList();
+    }
+
+    function setWordGroup(group) {
+      wordGroup = group;
+      applyWordFilter();
+    }
+
+    function onWordSearch(q) {
+      wordQuery = q || '';
+      applyWordFilter();
     }
 
     function renderCard() {
@@ -832,6 +897,7 @@
         document.getElementById('btn-next').disabled = true;
         return;
       }
+      document.getElementById('flash-tag').textContent = groupLabel(w.group);
       document.getElementById('fc-word').textContent = w.word;
       document.getElementById('fc-pos').textContent = w.pos;
       document.getElementById('fc-meaning').textContent = w.ko;
@@ -879,6 +945,7 @@
         <div class="word-row">
           <div>
             <div class="word-en">${i + 1}. ${w.word}</div>
+            <span class="word-tag">${groupLabel(w.group)}</span>
           </div>
           <div class="word-pos">${w.pos}</div>
           <div>
@@ -900,8 +967,7 @@
       }
     });
 
-    renderCard();
-    renderList();
+    applyWordFilter();
   </script>
 </body>
 </html>

@@ -6,28 +6,28 @@
       title: "문단 1 · 환경 슈퍼히어로 소개",
       summaryKo:
         "오염은 큰 문제이다. 다행히 세 명의 슈퍼히어로가 환경을 보호하기 위해 일하고 있고, 세상을 깨끗하게 만들고 싶어 한다. 글쓴이는 독자에게 그들과 함께하겠느냐고 묻는다.",
-      en: "",
+      en: "Pollution is a big problem. Luckily, three superheroes are working to protect the environment. They want to make the world clean. Will you join them?",
     },
     {
       id: "p2",
       title: "문단 2 · Recycle Wizard (재활용 마법사)",
       summaryKo:
         "사람들은 자원을 너무 많이 낭비하지만 재활용으로 자원을 지킬 수 있다. 예를 들어 종이 1,000kg을 재활용하면 나무 약 19그루와 물 29,000리터를 아낄 수 있다. 재활용을 잘하려면 플라스틱, 종이, 음식물 쓰레기, 유리를 올바른 통에 넣어야 한다. 활동: 아래 쓰레기를 알맞은 통에 선으로 연결하기.",
-      en: "",
+      en: "Hi! I'm Recycle Wizard.\n\nPeople waste too many resources. But recycling can save them. For example, recycling 1,000 kilograms of paper can save about 19 trees and 29,000 liters of water.\n\nDo you want to be a wizard at recycling? Then you should recycle properly! Put plastic, paper, food waste, and glass in the correct bins.\n\nLook at the waste below. Draw a line from each piece of waste to the right bin.\n\nGood job!",
     },
     {
       id: "p3",
       title: "문단 3 · Fashion Clever (패션 지킴이)",
       summaryKo:
         "사람들은 옷을 너무 자주 버린다. 버려진 옷은 쓰레기가 되어 환경을 해치고, 어떤 옷은 분해되는 데 200년이 넘게 걸린다. 옷을 너무 많이 사지 말고 오래 입어야 하며, 헌 옷으로 새 물건을 만들어 쓸모 있게 만들 수 있다. 활동: 헌 옷과 그것으로 만든 새 물건(쿠션, 가방, 연필꽂이, 컵 홀더)을 연결하기.",
-      en: "",
+      en: "I'm Fashion Clever.\n\nPeople throw away clothes too often. They become waste and hurt the environment. Did you know that some clothes take over 200 years to break down?\n\nDon't buy too many clothes. Wear your clothes for a long time. You can also create new items from your old clothes! Let's make old clothes useful.\n\nThere are some items below. What can you make with these old clothes? Match the old clothes with the correct new items.\n\nNow you can be clever at fashion too!",
     },
     {
       id: "p4",
       title: "문단 4 · Water Saver (물 절약 지킴이)",
       summaryKo:
         "물은 매우 중요해서 물 없이는 살 수 없지만, 사람들은 물을 많이 낭비한다. 물을 아끼려면 샤워를 짧게 하고, 양치하는 동안 물을 잠그고, 수도꼭지를 완전히 잠갔는지 꼭 확인해야 한다. 활동: 그림을 보고 물을 아끼는 방법이면 O, 아니면 X 표시하기.",
-      en: "",
+      en: "Hi! I'm Water Saver!\n\nWater is very important. We can't live without it. But people waste a lot of water. It makes me sad.\n\nHow can we save water? Take quick showers. Turn off the water while you brush your teeth. Also, make sure that you turn off the tap completely.\n\nLook at the pictures below. Which are ways to save water and which are not? Write an O or X on each picture.\n\nI'm sure that you got the right answers. You are amazing at saving water!",
     },
   ];
 
@@ -291,6 +291,11 @@
     title: "You're an Environmental Superhero!",
     titleKo: "당신은 환경 슈퍼히어로입니다! — 재활용, 옷 아껴 입기, 물 절약 방법을 알려 주는 글",
     storageKey: "englishlab.lesson7.topic3",
+    checks: [
+      "Q2. How can you be clever at fashion?",
+      "Q3. What else can you do to save water? Think.",
+    ],
+    bigQuestion: { q: "What do you do for the environment?", example: "I use both sides of paper." },
     paragraphs: PARAGRAPHS,
     vocab: VOCAB,
     grammar: GRAMMAR,

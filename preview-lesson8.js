@@ -6,28 +6,28 @@
       title: "문단 1 · 완벽한 소녀 Beatrice",
       summaryKo:
         "금요일도 Beatrice에게는 여느 날과 같았다. 양쪽 발에 똑같은 흰 양말을 신고, 샌드위치를 만들 때 빵 두 쪽에 정확히 같은 양의 땅콩버터를 발랐다. 사람들은 그녀가 한 번도 실수를 하지 않아서 'Perfect Girl'이라고 불렀다. 그녀는 저글링 챔피언이었고, 매년 장기자랑에서 우승했다.",
-      en: "",
+      en: "For Beatrice, Friday began like any other day. She wore the same white socks on both of her feet. Then she made a sandwich. She put exactly the same amount of peanut butter on each piece of bread.\n\nOn her way to school, her neighbor said, \"Good morning, Perfect Girl.\"\n\nPeople called Beatrice \"Perfect Girl\" because she never made mistakes.\n\n\"Are you ready for tonight's talent show?\" her neighbor asked.\n\nBeatrice just smiled. She was a juggling champion. She won the talent show every year.\n\nHow wonderful she was!",
     },
     {
       id: "p2",
       title: "문단 2 · 아슬아슬했던 순간",
       summaryKo:
         "학교 요리 수업에서 케이크를 만들기 위해 냉장고에서 달걀을 조심스럽게 꺼냈다. 돌아서다가 미끄러운 것을 밟아 넘어질 뻔했지만 넘어지지는 않았다. 거의 실수할 뻔했던 이 일 때문에 Beatrice는 긴장하기 시작했다.",
-      en: "",
+      en: "At school, Beatrice had a cooking class. To make a cake, she carefully took some eggs out of the refrigerator.\n\nWhen she turned around, she stepped on something slippery. She was about to fall! But she didn't.\n\n\"That was close!\" she thought.\n\nShe almost made a mistake. Because of this, she began to feel nervous.",
     },
     {
       id: "p3",
       title: "문단 3 · 장기자랑에서 일어난 일",
       summaryKo:
         "장기자랑 시간, 체육관은 사람들로 가득했다. Beatrice는 무척 긴장했고 실수할까 봐 걱정했다. 달걀, 소금통, 물풍선을 차례로 던지며 좋은 출발을 했지만, 코가 간지럽기 시작했다. 소금통에는 소금이 아니라 후추가 들어 있었던 것이다! 재채기를 하다가 물풍선을 놓쳤고, 달걀이 그녀의 머리 위에서 깨졌다.",
-      en: "",
+      en: "It was time for the talent show. The school gym was full of people.\n\nThey said, \"Look! That's Perfect Girl!\"\n\nBeatrice had butterflies in her stomach.\n\n\"Will I mess up? I'm worried,\" she thought.\n\nBeatrice threw an egg into the air. Next, she added a salt shaker. Finally, she added a water balloon.\n\nWhat a good start! But then she felt something strange…\n\n\"Uh-oh!\"\n\nBeatrice's nose started to itch! The salt shaker was full of… pepper!\n\n\"ACHOO!\"\n\nBeatrice missed the water balloon, and it fell to the floor.\n\nThen… OOPS!\n\nThe egg broke on top of her head.",
     },
     {
       id: "p4",
       title: "문단 4 · 웃음, 그리고 변화",
       summaryKo:
         "Beatrice는 처음으로 실수를 했다. 울어야 할까, 무대에서 도망쳐야 할까 고민하다가 갑자기 크게 웃기 시작했고, 사람들도 서로를 바라보다 함께 웃었다. 그날 밤 그녀는 푹 잤고, 다음 날 아침 미소를 지으며 일어나 왼발에는 흰 양말, 오른발에는 초록 양말을 신었다. 이제 사람들은 그녀를 'Perfect Girl'이 아니라 그냥 Beatrice라고 부른다.",
-      en: "",
+      en: "For the first time ever, Beatrice made a mistake. What a surprise!\n\nShe thought, \"What should I do? Cry? Run off the stage?\"\n\nSuddenly, she began to laugh loudly.\n\nThe people looked at each other. Then everyone started to laugh together.\n\nThat night, Beatrice had a deep sleep.\n\nThe next morning, she woke up with a smile. She put a white sock on her left foot… and a green sock on her right foot!\n\nNow, people no longer call her \"Perfect Girl.\" They just call her Beatrice.",
     },
   ];
 
@@ -296,6 +296,12 @@
     title: "The Story of a Perfect Girl",
     titleKo: "어느 완벽한 소녀의 이야기 — 실수를 통해 달라진 소녀의 이야기를 읽고 교훈을 생각해 보는 글",
     storageKey: "englishlab.lesson8.topic3",
+    checks: [
+      "Q3. What does \"Beatrice had butterflies in her stomach\" mean? Guess.",
+      "Q4. What was the salt shaker full of?",
+      "Q5. How did Beatrice change after her mistake?",
+    ],
+    bigQuestion: { q: "What did you learn from this story?", example: "I learned that it is okay to make mistakes." },
     paragraphs: PARAGRAPHS,
     vocab: VOCAB,
     grammar: GRAMMAR,

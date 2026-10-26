@@ -6,21 +6,21 @@
       title: "문단 1 · 한글 축제 현장",
       summaryKo:
         "10월 9일은 한글날이다. 리포터는 한글 축제 현장에 와 있고, 사람들은 즐거운 활동을 하며 행복하고 신나 보인다. 리포터는 한글을 사랑하는 세 사람(태국에서 온 13살 학생 Pueng, 스위스에서 온 27살 디자이너 Anna, 캐나다에서 온 51살 교수 William)을 인터뷰한다.",
-      en: "",
+      en: "Reporter: Today is October 9, a special day for Hangeul, the Korean alphabet. I'm at a Hangeul festival now. People are enjoying fun activities here. They look happy and excited. I'm going to interview three Hangeul lovers.",
     },
     {
       id: "p2",
       title: "문단 2 · 한글을 좋아하는 이유",
       summaryKo:
         "Pueng은 한글이 배우기 쉬워서 좋아한다. 24개의 글자를 배워 어떤 한국어 단어든 읽을 수 있다. Anna는 한글의 모양이 독특하고 아름다워서 좋아하는데, '스위스'라는 단어는 두 산 사이에 있는 군인처럼 보인다고 한다. William은 한글의 역사가 놀라워서 좋아한다. 오래전 대부분의 한국인은 읽거나 쓰지 못했고, 세종대왕은 이를 안타깝게 여겨 백성을 위해 새 문자를 만들었다.",
-      en: "",
+      en: "Reporter: Here is my first question. Why do you like Hangeul?\nPueng: I like Hangeul because it is easy to learn. I learned the 24 letters of Hangeul, and I am able to read any Korean word now.\nAnna: The shapes of Hangeul look unique and beautiful. I like the Korean word for Switzerland, “스위스[seu-wi-seu].” It looks like a soldier between two mountains. It looks great!\nWilliam: I like Hangeul because its history is amazing. A long time ago, most Koreans couldn't read or write. King Sejong felt bad about this, so he created a new alphabet for his people.",
     },
     {
       id: "p3",
       title: "문단 3 · 한글을 배우게 된 계기",
       summaryKo:
         "Pueng은 K-pop의 열렬한 팬이라 한국 노래를 부르고 싶어서 한글을 배우기 시작했고, 이제는 많은 노래를 부를 수 있다. Anna는 디자인에 한글을 쓰는 데 관심이 있어 한글의 모양을 공부했고, 한글로 옷의 독특한 무늬를 만든다. William은 학생들에게 한글의 과학적 원리를 가르치고 싶었다. 몇몇 글자는 소리를 낼 때의 입과 혀 모양을 닮았는데, 세종대왕이 그렇게 만들었기 때문에 매우 과학적이다.",
-      en: "",
+      en: "Reporter: You all really love Hangeul! How did you start learning it?\nPueng: I'm a big fan of K-pop songs. Because I wanted to sing Korean songs, I started learning Hangeul. Now I can sing many K-pop songs!\nAnna: I was interested in using Hangeul in my designs. So I studied the shapes of Hangeul. I can make unique patterns for clothes with Hangeul.\nWilliam: I wanted to teach the science of Hangeul to my students. Some letters look like the shape of the mouth and tongue for their sounds. King Sejong made it that way. It's very scientific.\nReporter: Thank you for sharing your stories. Enjoy this festival!",
     },
   ];
 
@@ -300,6 +300,15 @@
     title: "Happy Hangeul Day",
     titleKo: "행복한 한글날 — 한글을 사랑하는 세계인들의 인터뷰를 읽고 한글의 우수성을 알아보는 글",
     storageKey: "englishlab.lesson6.topic3",
+    cast: ["Pueng, 13, student, Thailand", "Anna, 27, designer, Switzerland", "William, 51, professor, Canada"],
+    checks: [
+      "Q1. What day is October 9 in Korea?",
+      "Q2. Why does Pueng like Hangeul?",
+      "Q3. What does the word ‘스위스’ look like to Anna?",
+      "Q4. Why did Pueng start learning Hangeul?",
+      "Q5. What did William want to teach to his students?",
+    ],
+    bigQuestion: { q: "What can you tell others about Hangeul?", example: "I can tell them about the science of Hangeul." },
     paragraphs: PARAGRAPHS,
     vocab: VOCAB,
     grammar: GRAMMAR,

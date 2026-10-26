@@ -44,17 +44,24 @@
       .trim();
   }
 
-  /* 본문 → 문단(블록) 배열, 각 블록은 문장 배열 */
+  /* 본문 → 블록 배열 { speaker, sentences }. "Reporter: ..." 형태면 speaker를 분리한다. */
   function splitBlocks(text) {
     return String(text || "")
       .split(/\n\s*\n|\n/)
       .map((b) => b.trim())
       .filter(Boolean)
-      .map((b) => b.split(/(?<=[.!?])\s+/).map((x) => x.trim()).filter(Boolean));
+      .map((b) => {
+        const m = b.match(/^([A-Z][A-Za-z]{1,20}):\s+(.*)$/);
+        const body = m ? m[2] : b;
+        return {
+          speaker: m ? m[1] : "",
+          sentences: body.split(/(?<=[.!?][”"’']?)\s+(?=[A-Z"“‘(])/).map((x) => x.trim()).filter(Boolean),
+        };
+      });
   }
 
   function splitSentences(text) {
-    return splitBlocks(text).flat();
+    return splitBlocks(text).flatMap((b) => b.sentences);
   }
 
   function shuffle(arr) {
@@ -129,20 +136,36 @@
       ? paragraphs
           .map((p, pi) => {
             let si = 0;
-            return splitBlocks(p.en)
-              .map(
-                (block) =>
-                  `<p class="book-para">${block
-                    .map((s) => {
-                      n += 1;
-                      return `<span class="sent" data-p="${pi}" data-s="${si++}" tabindex="0"><sup class="sn">${n}</sup>${highlightVocab(s)}</span>`;
-                    })
-                    .join(" ")}</p>`
-              )
+            const blocks = splitBlocks(p.en)
+              .map((block) => {
+                const sents = block.sentences
+                  .map((s) => {
+                    n += 1;
+                    return `<span class="sent" data-p="${pi}" data-s="${si++}" tabindex="0"><sup class="sn">${n}</sup>${highlightVocab(s)}</span>`;
+                  })
+                  .join(" ");
+                return block.speaker
+                  ? `<p class="book-para dialog"><span class="speaker">${esc(block.speaker)}:</span> <span>${sents}</span></p>`
+                  : `<p class="book-para">${sents}</p>`;
+              })
               .join("");
+            const cast = pi === 0 && d.cast ? `<div class="book-cast">${d.cast.map((c) => `<span>${esc(c)}</span>`).join("")}</div>` : "";
+            return blocks + cast;
           })
           .join("")
       : `<p class="book-empty">본문이 아직 없어요. 본문을 보내 주시면 여기에 들어가요.</p>`;
+
+    const checks =
+      hasText && d.bigQuestion
+        ? `<div class="book-check">
+            ${
+              d.bigQuestion
+                ? `<div class="big-q"><span class="big-q-tag">Big Question</span> ${esc(d.bigQuestion.q)}
+                    <details><summary>예시 답안 보기</summary><p>${esc(d.bigQuestion.example)}</p></details></div>`
+                : ""
+            }
+          </div>`
+        : "";
 
     document.getElementById("l5-passage").innerHTML = `
       <div class="passage-toolbar">
@@ -153,6 +176,7 @@
         <span class="book-tag">Topic 3</span>
         <h2 class="book-title">${esc(d.title)}</h2>
         ${body}
+        ${checks}
       </article>`;
   }
 
@@ -353,6 +377,62 @@
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") closeDrawer();
     });
+  }
+
+  /* ---------- 수업 이해 체크 (5문제) ---------- */
+
+  const checkKey = () => cur().storageKey + ".understanding.v1";
+
+  function loadChecks() {
+    try {
+      return JSON.parse(localStorage.getItem(checkKey()) || "{}") || {};
+    } catch (_) {
+      return {};
+    }
+  }
+
+  function renderUnderstanding() {
+    const root = document.getElementById("l5-check");
+    const items = cur().understanding || [];
+    const saved = loadChecks();
+    const doneCount = items.filter((_, i) => saved[i] && saved[i].checked).length;
+
+    root.innerHTML = `
+      <div class="card" style="margin-bottom:16px">
+        <p class="desc" style="margin:0">본문을 읽고 수업 내용을 잘 이해했는지 확인해요. 영어로 짧게 답을 쓰고 <strong>확인</strong>을 누르세요. (${doneCount} / ${items.length} 완료)</p>
+      </div>
+      ${items
+        .map((it, i) => {
+          const s = saved[i] || {};
+          const ok = s.checked && window.gradeUnderstanding(it, s.answer);
+          return `
+          <div class="card q-card ${s.checked ? (ok ? "q-ok" : "q-ng") : ""}" style="margin-bottom:14px">
+            <p class="q-title">Q${i + 1}. ${esc(it.q)}
+              ${s.checked ? `<span class="result-badge ${ok ? "ok" : "ng"}">${ok ? "잘했어요" : "다시 확인"}</span>` : ""}</p>
+            <input class="l5-short" data-check="${i}" value="${esc(s.answer || "")}" placeholder="영어로 답을 쓰세요." />
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button class="btn" type="button" style="height:38px" onclick="L5.checkAnswer(${i})">확인</button>
+            </div>
+            ${
+              s.checked
+                ? `<div class="feedback ${ok ? "ok" : "ng"}">
+                    <p><strong>모범 답안:</strong> ${esc(it.model)}</p>
+                    <p>${esc(it.ko)}</p>
+                    ${ok ? "" : `<p class="muted" style="margin:0">핵심 단어가 빠졌는지 본문을 다시 보고 고쳐서 다시 확인해 보세요.</p>`}
+                  </div>`
+                : ""
+            }
+          </div>`;
+        })
+        .join("")}`;
+  }
+
+  function checkAnswer(i) {
+    const input = document.querySelector(`[data-check="${i}"]`);
+    const saved = loadChecks();
+    saved[i] = { answer: input ? input.value : "", checked: true };
+    localStorage.setItem(checkKey(), JSON.stringify(saved));
+    renderUnderstanding();
   }
 
   /* ---------- 본문 이해 문제 ---------- */
@@ -650,6 +730,7 @@
     closeDrawer();
     renderHeader();
     renderPassage();
+    renderUnderstanding();
     renderComprehension();
     renderWordQuiz();
   }
@@ -657,6 +738,7 @@
   window.L5 = {
     showSub,
     selectLesson,
+    checkAnswer,
     openOverview,
     closeDrawer,
     speak,
