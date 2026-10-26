@@ -12,6 +12,13 @@
   let quiz = { answers: {}, reasons: {}, submitted: false };
   let wq = null;
   let vocabRegex = null;
+  let showKo = localStorage.getItem("englishlab.showKo") === "1";
+
+  function toggleKo() {
+    showKo = !showKo;
+    localStorage.setItem("englishlab.showKo", showKo ? "1" : "0");
+    renderPassage();
+  }
 
   const cur = () => DATA[currentId];
 
@@ -150,7 +157,8 @@
               })
               .join("");
             const cast = pi === 0 && d.cast ? `<div class="book-cast">${d.cast.map((c) => `<span>${esc(c)}</span>`).join("")}</div>` : "";
-            return blocks + cast;
+            const ko = showKo && p.summaryKo ? `<div class="ko-note"><span class="ko-note-tag">우리말 풀이</span>${esc(p.summaryKo)}</div>` : "";
+            return blocks + cast + ko;
           })
           .join("")
       : `<p class="book-empty">본문이 아직 없어요. 본문을 보내 주시면 여기에 들어가요.</p>`;
@@ -170,7 +178,10 @@
     document.getElementById("l5-passage").innerHTML = `
       <div class="passage-toolbar">
         <p class="muted" style="margin:0">문장이나 <mark class="vocab">초록색 단어</mark>를 누르면 옆에 설명이 나와요.</p>
-        <button class="btn outline" type="button" style="height:36px" onclick="L5.openOverview()">문법 · 단어 · 요약 보기</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn ${showKo ? "" : "outline"}" type="button" style="height:36px" onclick="L5.toggleKo()">${showKo ? "해석 숨기기" : "해석 보기"}</button>
+          <button class="btn outline" type="button" style="height:36px" onclick="L5.openOverview()">문법 · 단어 보기</button>
+        </div>
       </div>
       <article class="book-page">
         <span class="book-tag">Topic 3</span>
@@ -739,6 +750,7 @@
     showSub,
     selectLesson,
     checkAnswer,
+    toggleKo,
     openOverview,
     closeDrawer,
     speak,

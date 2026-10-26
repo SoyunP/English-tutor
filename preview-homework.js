@@ -77,19 +77,42 @@
     return out;
   }
 
+  const RECIPES = {
+    standard: ["en2ko", "en2ko", "ko2en", "fill", "fill", "bank", "bank", "bank", "order", "check"],
+    vocab: ["en2ko", "en2ko", "en2ko", "en2ko", "ko2en", "ko2en", "ko2en", "fill", "fill", "fill"],
+    passage: ["fill", "fill", "fill", "bank", "bank", "bank", "bank", "order", "order", "check"],
+  };
+
+  /* 특정 주(월요일 날짜)를 한 레슨에 집중시키기. 요일별로 초점을 바꾼다. */
+  const FOCUS_WEEKS = {
+    "2026-10-26": "l5",
+  };
+  const FOCUS_DAYS = [
+    { recipe: "standard", name: "총정리" }, // 일
+    { recipe: "standard", name: "기본" }, // 월
+    { recipe: "vocab", name: "단어 암기" }, // 화
+    { recipe: "passage", name: "본문 집중" }, // 수
+    { recipe: "standard", name: "단어 + 본문" }, // 목
+    { recipe: "passage", name: "본문 복습" }, // 금
+    { recipe: "vocab", name: "단어 집중" }, // 토
+  ];
+
   function planFor(d) {
     const w = dow(d);
-    if (w >= 1 && w <= 4) return { type: "lesson", lesson: LESSONS[w - 1] };
-    if (w === 6) return { type: "vocab" };
-    return { type: "mix" };
+    const focus = FOCUS_WEEKS[addDays(d, -((w + 6) % 7))];
+    if (focus) return { lessons: [focus], recipe: FOCUS_DAYS[w].recipe, focusName: FOCUS_DAYS[w].name };
+    if (w >= 1 && w <= 4) return { lessons: [LESSONS[w - 1]], recipe: "standard" };
+    if (w === 6) return { lessons: LESSONS, recipe: "vocab" };
+    return { lessons: LESSONS, recipe: "standard" };
   }
 
   function planLabel(p) {
-    if (p.type === "lesson") {
-      const x = DATA()[p.lesson];
-      return x ? `Lesson ${x.lessonNo} · ${x.title}` : "";
+    if (p.lessons.length === 1) {
+      const x = DATA()[p.lessons[0]];
+      if (!x) return "";
+      return p.focusName ? `Lesson ${x.lessonNo} · ${p.focusName}` : `Lesson ${x.lessonNo} · ${x.title}`;
     }
-    return p.type === "vocab" ? "단어 집중 · Lesson 5–8" : "종합 복습 · Lesson 5–8";
+    return p.recipe === "vocab" ? "단어 집중 · Lesson 5–8" : "종합 복습 · Lesson 5–8";
   }
 
   /* ---------- 랜덤 (날짜로 고정) ---------- */
@@ -257,14 +280,7 @@
     const r = rng(hash("englishlab-" + date));
     const plan = planFor(date);
     const used = new Set();
-    const recipe =
-      plan.type === "vocab"
-        ? ["en2ko", "en2ko", "en2ko", "en2ko", "ko2en", "ko2en", "ko2en", "fill", "fill", "fill"]
-        : ["en2ko", "en2ko", "ko2en", "fill", "fill", "bank", "bank", "bank", "order", "check"];
-    return recipe.map((k) => {
-      const id = plan.type === "lesson" ? plan.lesson : pick(LESSONS, r);
-      return MAKERS[k](id, r, used);
-    });
+    return RECIPES[plan.recipe].map((k) => MAKERS[k](pick(plan.lessons, r), r, used));
   }
 
   /* ---------- 저장 / 채점 ---------- */
