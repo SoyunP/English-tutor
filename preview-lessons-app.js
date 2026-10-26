@@ -13,11 +13,96 @@
   let wq = null;
   let vocabRegex = null;
   let showKo = localStorage.getItem("englishlab.showKo") === "1";
+  let blankMode = false;
+  const STOP_WORDS = new Set(
+    "a an the and or but to of in on at for with from by as is are was were be am do did does it its they them their we our you your he she his her i my this that these those not so if when than then also too can will just into over about up out".split(
+      " "
+    )
+  );
 
   function toggleKo() {
     showKo = !showKo;
+    if (!showKo) blankMode = false;
     localStorage.setItem("englishlab.showKo", showKo ? "1" : "0");
     renderPassage();
+  }
+
+  function toggleBlank() {
+    blankMode = !blankMode;
+    if (blankMode) {
+      showKo = true;
+      localStorage.setItem("englishlab.showKo", "1");
+    }
+    renderPassage();
+  }
+
+  function hashStr(s) {
+    let h = 2166136261;
+    for (let i = 0; i < s.length; i++) {
+      h ^= s.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return h >>> 0;
+  }
+
+  function isVocabToken(word) {
+    if (!vocabRegex) return false;
+    const w = word.toLowerCase();
+    vocabRegex.lastIndex = 0;
+    const exact = vocabRegex.test(w);
+    vocabRegex.lastIndex = 0;
+    if (exact) return true;
+    return cur().vocab.some((v) =>
+      [v.word, ...(v.forms || [])].some((form) => {
+        const head = String(form).toLowerCase().split(/\s+/)[0];
+        return head.length >= 4 && (w.startsWith(head) || (w.length >= 4 && head.startsWith(w)));
+      })
+    );
+  }
+
+  function seededSample(arr, count, seed) {
+    const a = arr.slice();
+    let h = seed || 1;
+    const rand = () => {
+      h = (Math.imul(h, 1664525) + 1013904223) >>> 0;
+      return h / 4294967296;
+    };
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    const chosen = a.slice(0, count);
+    if (chosen.length === 2 && Math.abs(chosen[1].i - chosen[0].i) <= 2) {
+      const alt = a.slice(count).find((w) => Math.abs(w.i - chosen[0].i) > 2);
+      if (alt) chosen[1] = alt;
+    }
+    return chosen;
+  }
+
+  /* 문장에서 단어 1~2개를 빈칸으로. 본문 단어를 우선하고, 없으면 내용어를 고른다. */
+  function blankedSentence(sentence) {
+    const tokens = sentence.match(/[A-Za-z]+(?:['’-][A-Za-z]+)*|\s+|[^A-Za-z\s]+/g) || [sentence];
+    const words = [];
+    tokens.forEach((tok, i) => {
+      if (/^[A-Za-z]/.test(tok)) words.push({ i, tok });
+    });
+    const content = words.filter((w) => !STOP_WORDS.has(w.tok.toLowerCase()));
+    const vocabWords = content.filter((w) => isVocabToken(w.tok));
+    const base = content.length ? content : words;
+    const count = Math.min(base.length, words.length >= 4 ? 2 : 1);
+    const preferred = vocabWords.length ? vocabWords : base;
+    const picked =
+      preferred.length >= count
+        ? seededSample(preferred, count, hashStr(sentence))
+        : preferred.concat(seededSample(base.filter((w) => !preferred.some((p) => p.i === w.i)), count - preferred.length, hashStr(sentence)));
+    const hide = new Set(picked.map((w) => w.i));
+    return tokens
+      .map((tok, i) => {
+        if (!hide.has(i)) return highlightVocab(tok);
+        const width = Math.max(2.4, tok.length * 0.62);
+        return `<button type="button" class="word-blank" style="width:${width}em" data-answer="${esc(tok)}" aria-label="가려진 단어"></button>`;
+      })
+      .join("");
   }
 
   const cur = () => DATA[currentId];
@@ -137,6 +222,7 @@
 
   function renderPassage() {
     const d = cur();
+    const glossOn = showKo || blankMode;
     const hasText = paragraphs.some((p) => String(p.en || "").trim());
     let n = 0;
     const body = hasText
@@ -147,18 +233,22 @@
               .map((block) => {
                 const sents = block.sentences
                   .map((s) => {
+                    const idx = si++;
                     n += 1;
-                    return `<span class="sent" data-p="${pi}" data-s="${si++}" tabindex="0"><sup class="sn">${n}</sup>${highlightVocab(s)}</span>`;
+                    const sent = `<span class="sent" data-p="${pi}" data-s="${idx}" tabindex="0"><sup class="sn">${n}</sup>${blankMode ? blankedSentence(s) : highlightVocab(s)}</span>`;
+                    if (!glossOn) return sent;
+                    const gloss = (p.koSents || [])[idx];
+                    return `<span class="sent-pair">${sent}${gloss ? `<span class="sent-gloss">${esc(gloss)}</span>` : ""}</span>`;
                   })
-                  .join(" ");
+                  .join(glossOn ? "" : " ");
+                const glossed = glossOn ? " glossed" : "";
                 return block.speaker
-                  ? `<p class="book-para dialog"><span class="speaker">${esc(block.speaker)}:</span> <span>${sents}</span></p>`
-                  : `<p class="book-para">${sents}</p>`;
+                  ? `<p class="book-para dialog${glossed}"><span class="speaker">${esc(block.speaker)}:</span> <span class="dialog-lines">${sents}</span></p>`
+                  : `<p class="book-para${glossed}">${sents}</p>`;
               })
               .join("");
             const cast = pi === 0 && d.cast ? `<div class="book-cast">${d.cast.map((c) => `<span>${esc(c)}</span>`).join("")}</div>` : "";
-            const ko = showKo && p.summaryKo ? `<div class="ko-note"><span class="ko-note-tag">우리말 풀이</span>${esc(p.summaryKo)}</div>` : "";
-            return blocks + cast + ko;
+            return blocks + cast;
           })
           .join("")
       : `<p class="book-empty">본문이 아직 없어요. 본문을 보내 주시면 여기에 들어가요.</p>`;
@@ -177,9 +267,14 @@
 
     document.getElementById("l5-passage").innerHTML = `
       <div class="passage-toolbar">
-        <p class="muted" style="margin:0">문장이나 <mark class="vocab">초록색 단어</mark>를 누르면 옆에 설명이 나와요.</p>
+        <p class="muted" style="margin:0">${
+          blankMode
+            ? "아래 한국말을 보고 가려진 영어를 떠올려 보세요. 빈칸을 누르면 답이 나와요."
+            : `문장이나 <mark class="vocab">초록색 단어</mark>를 누르면 옆에 설명이 나와요.`
+        }</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <button class="btn ${showKo ? "" : "outline"}" type="button" style="height:36px" onclick="L5.toggleKo()">${showKo ? "해석 숨기기" : "해석 보기"}</button>
+          <button class="btn ${blankMode ? "" : "outline"}" type="button" style="height:36px" onclick="L5.toggleBlank()">${blankMode ? "빈칸 끄기" : "빈칸 연습"}</button>
           <button class="btn outline" type="button" style="height:36px" onclick="L5.openOverview()">문법 · 단어 보기</button>
         </div>
       </div>
@@ -359,6 +454,18 @@
   function bindPassageClicks() {
     const root = document.getElementById("l5-passage");
     root.addEventListener("click", (e) => {
+      const blank = e.target.closest(".word-blank");
+      if (blank) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!blank.classList.contains("revealed")) {
+          blank.classList.add("revealed");
+          blank.style.width = "";
+          blank.innerHTML = highlightVocab(blank.dataset.answer);
+          blank.setAttribute("aria-label", blank.dataset.answer);
+        }
+        return;
+      }
       const mark = e.target.closest("mark.vocab");
       if (mark && mark.closest(".sent")) {
         e.stopPropagation();
@@ -369,6 +476,7 @@
       if (row) openSentence(Number(row.dataset.p), Number(row.dataset.s));
     });
     root.addEventListener("keydown", (e) => {
+      if (e.target.closest(".word-blank")) return;
       const row = e.target.closest(".sent");
       if (row && (e.key === "Enter" || e.key === " ")) {
         e.preventDefault();
@@ -751,6 +859,7 @@
     selectLesson,
     checkAnswer,
     toggleKo,
+    toggleBlank,
     openOverview,
     closeDrawer,
     speak,

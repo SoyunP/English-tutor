@@ -7,6 +7,19 @@
       summaryKo:
         "금요일도 Beatrice에게는 여느 날과 같았다. 양쪽 발에 똑같은 흰 양말을 신고, 샌드위치를 만들 때 빵 두 쪽에 정확히 같은 양의 땅콩버터를 발랐다. 사람들은 그녀가 한 번도 실수를 하지 않아서 'Perfect Girl'이라고 불렀다. 그녀는 저글링 챔피언이었고, 매년 장기자랑에서 우승했다.",
       en: "For Beatrice, Friday began like any other day. She wore the same white socks on both of her feet. Then she made a sandwich. She put exactly the same amount of peanut butter on each piece of bread.\n\nOn her way to school, her neighbor said, \"Good morning, Perfect Girl.\"\n\nPeople called Beatrice \"Perfect Girl\" because she never made mistakes.\n\n\"Are you ready for tonight's talent show?\" her neighbor asked.\n\nBeatrice just smiled. She was a juggling champion. She won the talent show every year.\n\nHow wonderful she was!",
+      koSents: [
+        "Beatrice에게 금요일은 여느 날처럼 시작되었다.",
+        "그녀는 양쪽 발에 똑같은 흰 양말을 신었다.",
+        "그러고 나서 그녀는 샌드위치를 만들었다.",
+        "그녀는 빵 한 조각마다 정확히 같은 양의 땅콩버터를 발랐다.",
+        "학교로 가는 길에 이웃이 「좋은 아침이야, Perfect Girl.」이라고 말했다.",
+        "사람들은 Beatrice가 한 번도 실수를 하지 않아서 그녀를 'Perfect Girl'이라고 불렀다.",
+        "이웃이 「오늘 밤 장기자랑 준비됐니?」라고 물었다.",
+        "Beatrice는 그저 미소 지었다.",
+        "그녀는 저글링 챔피언이었다.",
+        "그녀는 매년 장기자랑에서 우승했다.",
+        "그녀는 정말 멋졌구나!",
+      ],
     },
     {
       id: "p2",
@@ -14,6 +27,16 @@
       summaryKo:
         "학교 요리 수업에서 케이크를 만들기 위해 냉장고에서 달걀을 조심스럽게 꺼냈다. 돌아서다가 미끄러운 것을 밟아 넘어질 뻔했지만 넘어지지는 않았다. 거의 실수할 뻔했던 이 일 때문에 Beatrice는 긴장하기 시작했다.",
       en: "At school, Beatrice had a cooking class. To make a cake, she carefully took some eggs out of the refrigerator.\n\nWhen she turned around, she stepped on something slippery. She was about to fall! But she didn't.\n\n\"That was close!\" she thought.\n\nShe almost made a mistake. Because of this, she began to feel nervous.",
+      koSents: [
+        "학교에서 Beatrice는 요리 수업이 있었다.",
+        "케이크를 만들기 위해 그녀는 냉장고에서 달걀을 조심스럽게 꺼냈다.",
+        "돌아설 때 그녀는 미끄러운 무언가를 밟았다.",
+        "그녀는 막 넘어지려 했다!",
+        "하지만 넘어지지는 않았다.",
+        "그녀는 「아슬아슬했어!」라고 생각했다.",
+        "그녀는 거의 실수할 뻔했다.",
+        "이 일 때문에 그녀는 긴장하기 시작했다.",
+      ],
     },
     {
       id: "p3",
@@ -21,6 +44,27 @@
       summaryKo:
         "장기자랑 시간, 체육관은 사람들로 가득했다. Beatrice는 무척 긴장했고 실수할까 봐 걱정했다. 달걀, 소금통, 물풍선을 차례로 던지며 좋은 출발을 했지만, 코가 간지럽기 시작했다. 소금통에는 소금이 아니라 후추가 들어 있었던 것이다! 재채기를 하다가 물풍선을 놓쳤고, 달걀이 그녀의 머리 위에서 깨졌다.",
       en: "It was time for the talent show. The school gym was full of people.\n\nThey said, \"Look! That's Perfect Girl!\"\n\nBeatrice had butterflies in her stomach.\n\n\"Will I mess up? I'm worried,\" she thought.\n\nBeatrice threw an egg into the air. Next, she added a salt shaker. Finally, she added a water balloon.\n\nWhat a good start! But then she felt something strange…\n\n\"Uh-oh!\"\n\nBeatrice's nose started to itch! The salt shaker was full of… pepper!\n\n\"ACHOO!\"\n\nBeatrice missed the water balloon, and it fell to the floor.\n\nThen… OOPS!\n\nThe egg broke on top of her head.",
+      koSents: [
+        "장기자랑 시간이 되었다.",
+        "학교 체육관은 사람들로 가득했다.",
+        "사람들이 말했다. 「봐!",
+        "저 사람이 Perfect Girl이야!」",
+        "Beatrice는 몹시 긴장했다.",
+        "「내가 망치게 될까?",
+        "걱정돼.」라고 그녀는 생각했다.",
+        "Beatrice는 달걀을 공중으로 던졌다.",
+        "다음으로 그녀는 소금통을 더했다.",
+        "마지막으로 그녀는 물풍선을 더했다.",
+        "정말 좋은 출발이야!",
+        "하지만 그때 그녀는 이상한 느낌이 들었다…",
+        "「이런!」",
+        "Beatrice의 코가 간지럽기 시작했다!",
+        "소금통에는… 후추가 가득했다!",
+        "「에취!」",
+        "Beatrice는 물풍선을 놓쳤고, 그것은 바닥에 떨어졌다.",
+        "그리고… 앗!",
+        "달걀이 그녀의 머리 위에서 깨졌다.",
+      ],
     },
     {
       id: "p4",
@@ -28,6 +72,21 @@
       summaryKo:
         "Beatrice는 처음으로 실수를 했다. 울어야 할까, 무대에서 도망쳐야 할까 고민하다가 갑자기 크게 웃기 시작했고, 사람들도 서로를 바라보다 함께 웃었다. 그날 밤 그녀는 푹 잤고, 다음 날 아침 미소를 지으며 일어나 왼발에는 흰 양말, 오른발에는 초록 양말을 신었다. 이제 사람들은 그녀를 'Perfect Girl'이 아니라 그냥 Beatrice라고 부른다.",
       en: "For the first time ever, Beatrice made a mistake. What a surprise!\n\nShe thought, \"What should I do? Cry? Run off the stage?\"\n\nSuddenly, she began to laugh loudly.\n\nThe people looked at each other. Then everyone started to laugh together.\n\nThat night, Beatrice had a deep sleep.\n\nThe next morning, she woke up with a smile. She put a white sock on her left foot… and a green sock on her right foot!\n\nNow, people no longer call her \"Perfect Girl.\" They just call her Beatrice.",
+      koSents: [
+        "난생처음으로 Beatrice는 실수를 했다.",
+        "정말 놀라운 일이야!",
+        "그녀는 생각했다. 「어떻게 해야 하지?",
+        "울까?",
+        "무대에서 도망칠까?」",
+        "갑자기 그녀는 크게 웃기 시작했다.",
+        "사람들은 서로를 바라보았다.",
+        "그러고 나서 모두가 함께 웃기 시작했다.",
+        "그날 밤 Beatrice는 푹 잤다.",
+        "다음 날 아침, 그녀는 미소를 지으며 일어났다.",
+        "그녀는 왼발에는 흰 양말을… 오른발에는 초록 양말을 신었다!",
+        "이제 사람들은 더 이상 그녀를 'Perfect Girl'이라고 부르지 않는다.",
+        "사람들은 그냥 그녀를 Beatrice라고 부른다.",
+      ],
     },
   ];
 

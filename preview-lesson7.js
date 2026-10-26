@@ -7,6 +7,12 @@
       summaryKo:
         "오염은 큰 문제이다. 다행히 세 명의 슈퍼히어로가 환경을 보호하기 위해 일하고 있고, 세상을 깨끗하게 만들고 싶어 한다. 글쓴이는 독자에게 그들과 함께하겠느냐고 묻는다.",
       en: "Pollution is a big problem. Luckily, three superheroes are working to protect the environment. They want to make the world clean. Will you join them?",
+      koSents: [
+        "오염은 큰 문제이다.",
+        "다행히 세 명의 슈퍼히어로가 환경을 보호하기 위해 일하고 있다.",
+        "그들은 세상을 깨끗하게 만들고 싶어 한다.",
+        "그들과 함께할래?",
+      ],
     },
     {
       id: "p2",
@@ -14,6 +20,19 @@
       summaryKo:
         "사람들은 자원을 너무 많이 낭비하지만 재활용으로 자원을 지킬 수 있다. 예를 들어 종이 1,000kg을 재활용하면 나무 약 19그루와 물 29,000리터를 아낄 수 있다. 재활용을 잘하려면 플라스틱, 종이, 음식물 쓰레기, 유리를 올바른 통에 넣어야 한다. 활동: 아래 쓰레기를 알맞은 통에 선으로 연결하기.",
       en: "Hi! I'm Recycle Wizard.\n\nPeople waste too many resources. But recycling can save them. For example, recycling 1,000 kilograms of paper can save about 19 trees and 29,000 liters of water.\n\nDo you want to be a wizard at recycling? Then you should recycle properly! Put plastic, paper, food waste, and glass in the correct bins.\n\nLook at the waste below. Draw a line from each piece of waste to the right bin.\n\nGood job!",
+      koSents: [
+        "안녕!",
+        "나는 재활용 마법사야.",
+        "사람들은 자원을 너무 많이 낭비한다.",
+        "하지만 재활용은 그 자원들을 지킬 수 있다.",
+        "예를 들어, 종이 1,000kg을 재활용하면 나무 약 19그루와 물 29,000리터를 아낄 수 있다.",
+        "재활용의 달인이 되고 싶니?",
+        "그렇다면 너는 올바르게 재활용해야 한다!",
+        "플라스틱, 종이, 음식물 쓰레기, 유리를 올바른 통에 넣어라.",
+        "아래 쓰레기를 보아라.",
+        "쓰레기 하나하나에서 알맞은 통으로 선을 그어라.",
+        "잘했어!",
+      ],
     },
     {
       id: "p3",
@@ -21,6 +40,20 @@
       summaryKo:
         "사람들은 옷을 너무 자주 버린다. 버려진 옷은 쓰레기가 되어 환경을 해치고, 어떤 옷은 분해되는 데 200년이 넘게 걸린다. 옷을 너무 많이 사지 말고 오래 입어야 하며, 헌 옷으로 새 물건을 만들어 쓸모 있게 만들 수 있다. 활동: 헌 옷과 그것으로 만든 새 물건(쿠션, 가방, 연필꽂이, 컵 홀더)을 연결하기.",
       en: "I'm Fashion Clever.\n\nPeople throw away clothes too often. They become waste and hurt the environment. Did you know that some clothes take over 200 years to break down?\n\nDon't buy too many clothes. Wear your clothes for a long time. You can also create new items from your old clothes! Let's make old clothes useful.\n\nThere are some items below. What can you make with these old clothes? Match the old clothes with the correct new items.\n\nNow you can be clever at fashion too!",
+      koSents: [
+        "나는 패션 지킴이야.",
+        "사람들은 옷을 너무 자주 버린다.",
+        "그 옷들은 쓰레기가 되어 환경을 해친다.",
+        "어떤 옷들은 분해되는 데 200년 넘게 걸린다는 것을 알고 있니?",
+        "옷을 너무 많이 사지 마라.",
+        "옷을 오래 입어라.",
+        "헌 옷으로 새 물건을 만들 수도 있어!",
+        "헌 옷을 쓸모 있게 만들자.",
+        "아래에 물건들이 있다.",
+        "이 헌 옷으로 무엇을 만들 수 있을까?",
+        "헌 옷을 알맞은 새 물건과 연결해라.",
+        "이제 너도 패션을 똑똑하게 할 수 있어!",
+      ],
     },
     {
       id: "p4",
@@ -28,6 +61,23 @@
       summaryKo:
         "물은 매우 중요해서 물 없이는 살 수 없지만, 사람들은 물을 많이 낭비한다. 물을 아끼려면 샤워를 짧게 하고, 양치하는 동안 물을 잠그고, 수도꼭지를 완전히 잠갔는지 꼭 확인해야 한다. 활동: 그림을 보고 물을 아끼는 방법이면 O, 아니면 X 표시하기.",
       en: "Hi! I'm Water Saver!\n\nWater is very important. We can't live without it. But people waste a lot of water. It makes me sad.\n\nHow can we save water? Take quick showers. Turn off the water while you brush your teeth. Also, make sure that you turn off the tap completely.\n\nLook at the pictures below. Which are ways to save water and which are not? Write an O or X on each picture.\n\nI'm sure that you got the right answers. You are amazing at saving water!",
+      koSents: [
+        "안녕!",
+        "나는 물 절약 지킴이야!",
+        "물은 매우 중요하다.",
+        "우리는 물 없이는 살 수 없다.",
+        "하지만 사람들은 물을 많이 낭비한다.",
+        "그것은 나를 슬프게 만든다.",
+        "어떻게 물을 아낄 수 있을까?",
+        "샤워를 짧게 해라.",
+        "양치하는 동안 물을 잠가라.",
+        "또한, 수도꼭지를 완전히 잠그도록 꼭 확인해라.",
+        "아래 그림을 보아라.",
+        "어떤 것이 물을 아끼는 방법이고, 어떤 것이 아닌지?",
+        "각 그림에 O 또는 X를 써라.",
+        "네가 정답을 맞혔을 거라고 확신해.",
+        "너는 물을 아끼는 데 정말 뛰어나!",
+      ],
     },
   ];
 

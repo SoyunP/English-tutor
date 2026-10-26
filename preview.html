@@ -451,7 +451,60 @@
       padding: 2px 8px;
       margin-right: 8px;
     }
+    .book-para.glossed {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      line-height: 1.55;
+    }
     .book-para.dialog { display: flex; gap: 10px; }
+    .book-para.dialog.glossed {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+    .dialog-lines { min-width: 0; }
+    .book-para.glossed .dialog-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex: 1;
+    }
+    .sent-pair { display: block; }
+    .sent-gloss {
+      display: block;
+      margin-top: 3px;
+      padding-left: 22px;
+      font-family: Pretendard, sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      color: #245743;
+    }
+    .word-blank {
+      display: inline-block;
+      vertical-align: baseline;
+      box-sizing: border-box;
+      height: 1.05em;
+      margin: 0 2px;
+      padding: 0;
+      border: none;
+      border-bottom: 2px solid #c2492b;
+      border-radius: 5px 5px 0 0;
+      background: #f8efe4;
+      color: transparent;
+      font: inherit;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .word-blank:hover { background: #f3e0d2; }
+    .word-blank.revealed {
+      width: auto !important;
+      height: auto;
+      padding: 0 3px;
+      color: inherit;
+      background: #e7f5ec;
+      border-bottom-color: #3d7a5f;
+    }
+    .word-blank.revealed:hover { background: #d8eee2; }
     .speaker {
       flex-shrink: 0;
       min-width: 86px;
@@ -501,7 +554,8 @@
     .big-q details { margin-top: 8px; font-weight: 400; color: var(--fg); }
     .big-q summary { cursor: pointer; font-size: 13px; color: var(--primary); }
     @media (max-width: 720px) {
-      .book-para.dialog { flex-direction: column; gap: 0; }
+      .book-para.dialog,
+      .book-para.dialog.glossed { flex-direction: column; gap: 0; }
     }
     .sent { cursor: pointer; border-radius: 4px; transition: background .15s; }
     .sent:hover { background: #f6efe1; }
@@ -802,15 +856,15 @@
     <div id="drawer-body" class="drawer-body"></div>
   </aside>
 
-  <script src="preview-words.js?v=20261026b"></script>
-  <script src="preview-lesson5.js?v=20261026b"></script>
-  <script src="preview-lesson6.js?v=20261026b"></script>
-  <script src="preview-lesson7.js?v=20261026b"></script>
-  <script src="preview-lesson8.js?v=20261026b"></script>
-  <script src="preview-understanding.js?v=20261026b"></script>
-  <script src="preview-passage-words.js?v=20261026b"></script>
-  <script src="preview-lessons-app.js?v=20261026b"></script>
-  <script src="preview-homework.js?v=20261026b"></script>
+  <script src="preview-words.js?v=20261026c"></script>
+  <script src="preview-lesson5.js?v=20261026c"></script>
+  <script src="preview-lesson6.js?v=20261026c"></script>
+  <script src="preview-lesson7.js?v=20261026c"></script>
+  <script src="preview-lesson8.js?v=20261026c"></script>
+  <script src="preview-understanding.js?v=20261026c"></script>
+  <script src="preview-passage-words.js?v=20261026c"></script>
+  <script src="preview-lessons-app.js?v=20261026e"></script>
+  <script src="preview-homework.js?v=20261026c"></script>
   <script>
     const WORD_GROUPS = [
       { id: 'l5', label: 'Lesson 5' },
