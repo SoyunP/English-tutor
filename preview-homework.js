@@ -485,7 +485,7 @@
     const st = getState(date);
     const qs = st.questions;
     const done = st.submitted;
-    const answered = qs.filter((q, i) => hasAnswer(q, st.answers[i]) && String(st.reasons[i] || "").trim()).length;
+    const answered = qs.filter((q, i) => hasAnswer(q, st.answers[i])).length;
 
     root.innerHTML = `
       <button class="btn outline" type="button" style="height:36px;margin-bottom:12px" onclick="HW.back()">← 숙제 목록</button>
@@ -499,7 +499,7 @@
               <div class="muted">제출: ${new Date(st.submittedAt).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })}</div>
             </div>`
           : `<div class="card" style="margin-bottom:16px">
-              <p class="desc" style="margin:0">제한 시간은 없어요. 쓰는 내용은 자동 저장돼요. 모든 문제에 답과 「왜 그렇게 생각하나요?」를 쓰면 제출할 수 있어요.</p>
+              <p class="desc" style="margin:0">제한 시간은 없어요. 쓰는 내용은 자동 저장돼요. 모든 문제에 답을 쓰면 제출할 수 있어요.</p>
               <div class="pbar" style="margin-top:10px"><div style="width:${Math.round((answered / qs.length) * 100)}%"></div></div>
               <p class="muted" style="margin:6px 0 0">${answered} / ${qs.length} 완료</p>
             </div>`
@@ -520,12 +520,6 @@
     root.querySelectorAll("[data-ans]").forEach((el) =>
       el.addEventListener("input", () => {
         st.answers[Number(el.dataset.ans)] = el.value;
-        save(date, st);
-      })
-    );
-    root.querySelectorAll("[data-reason]").forEach((el) =>
-      el.addEventListener("input", () => {
-        st.reasons[Number(el.dataset.reason)] = el.value;
         save(date, st);
       })
     );
@@ -552,7 +546,6 @@
 
   function renderQ(q, i, st) {
     const a = st.answers[i];
-    const reason = st.reasons[i] || "";
     const done = st.submitted;
     const ok = done && st.results && st.results[i];
     const lessonNo = DATA()[q.lesson] ? DATA()[q.lesson].lessonNo : "";
@@ -586,16 +579,10 @@
           ${done ? `<span class="result-badge ${ok ? "ok" : "ng"}">${ok ? "정답" : "오답"}</span>` : ""}</p>
         ${q.quote ? `<div class="passage">${richText(q.quote)}</div>` : ""}
         ${body}
-        <label for="hw-r-${i}">왜 그렇게 생각하나요?</label>
-        <textarea id="hw-r-${i}" data-reason="${i}" ${done ? "disabled" : ""} placeholder="이 답을 선택한 이유를 자유롭게 설명해 보세요.">${esc(reason)}</textarea>
-        <p class="help">정답이라고 생각한 이유나 문법적 근거를 적어보세요.</p>
         ${
           done
             ? `<div class="feedback ${ok ? "ok" : "ng"}">
-                <div class="fb-grid">
-                  <div><p class="mini-label">내가 선택한 답</p><p>${esc(myText)}</p></div>
-                  <div><p class="mini-label">내가 생각한 이유</p><p>${esc(reason)}</p></div>
-                </div>
+                <p><strong>내가 선택한 답:</strong> ${esc(myText)}</p>
                 <p><strong>정답:</strong> ${esc(rightText)}</p>
                 <p style="white-space:pre-line"><strong>${ok ? "해설" : "왜 틀렸을까요?"}</strong> ${esc(q.explain)}</p>
               </div>`
@@ -608,19 +595,17 @@
     const date = openDate;
     const st = getState(date);
     const missing = st.questions
-      .map((q, i) => ({ i, noA: !hasAnswer(q, st.answers[i]), noR: !String(st.reasons[i] || "").trim() }))
-      .filter((m) => m.noA || m.noR);
+      .map((q, i) => ({ i, noA: !hasAnswer(q, st.answers[i]) }))
+      .filter((m) => m.noA);
     if (missing.length) {
       document.getElementById("hw-missing").innerHTML = `
         <div class="card missing-card">
           <strong>아직 끝나지 않은 문제가 있어요</strong>
-          <ul>${missing
-            .map((m) => `<li><a href="#hw-q-${m.i}">${m.i + 1}번</a> — ${[m.noA ? "답 없음" : "", m.noR ? "이유 없음" : ""].filter(Boolean).join(", ")}</li>`)
-            .join("")}</ul>
+          <ul>${missing.map((m) => `<li><a href="#hw-q-${m.i}">${m.i + 1}번</a> — 답 없음</li>`).join("")}</ul>
         </div>`;
       return;
     }
-    if (!confirm("제출하면 답과 이유를 고칠 수 없어요. 제출할까요?")) return;
+    if (!confirm("제출하면 답을 고칠 수 없어요. 제출할까요?")) return;
     st.results = st.questions.map((q, i) => isCorrect(q, st.answers[i]));
     st.correct = st.results.filter(Boolean).length;
     st.score = Math.round((st.correct / st.questions.length) * 100);
