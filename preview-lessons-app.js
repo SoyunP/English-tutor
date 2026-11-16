@@ -14,6 +14,9 @@
   let vocabRegex = null;
   let showKo = localStorage.getItem("englishlab.showKo") === "1";
   let blankMode = false;
+  let writeMode = false;
+  let writeDrafts = {};
+  let writeIndex = {};
   const STOP_WORDS = new Set(
     "a an the and or but to of in on at for with from by as is are was were be am do did does it its they them their we our you your he she his her i my this that these those not so if when than then also too can will just into over about up out".split(
       " "
@@ -21,6 +24,11 @@
   );
 
   function toggleKo() {
+    if (writeMode) {
+      writeMode = false;
+      renderPassage();
+      return;
+    }
     showKo = !showKo;
     if (!showKo) blankMode = false;
     localStorage.setItem("englishlab.showKo", showKo ? "1" : "0");
@@ -28,12 +36,272 @@
   }
 
   function toggleBlank() {
+    if (writeMode) writeMode = false;
     blankMode = !blankMode;
     if (blankMode) {
       showKo = true;
       localStorage.setItem("englishlab.showKo", "1");
     }
     renderPassage();
+  }
+
+  function canWrite() {
+    const no = Number(cur().lessonNo);
+    return (no === 5 || no === 6 || no === 7) && paragraphs.some((p) => (p.koSents || []).some(Boolean));
+  }
+
+  function toggleWrite() {
+    if (!canWrite()) return;
+    writeMode = !writeMode;
+    if (writeMode) blankMode = false;
+    renderPassage();
+  }
+
+  const writeKey = () => cur().storageKey + ".enko.v1";
+
+  function loadWrite() {
+    try {
+      writeDrafts = JSON.parse(localStorage.getItem(writeKey()) || "{}") || {};
+    } catch (_) {
+      writeDrafts = {};
+    }
+  }
+
+  function saveWrite() {
+    localStorage.setItem(writeKey(), JSON.stringify(writeDrafts));
+  }
+
+  /* 본문 문장과 한국말 해석을 같은 순서로 짝짓는다. */
+  function rebuildWriteIndex() {
+    writeIndex = {};
+    let n = 0;
+    paragraphs.forEach((p, pi) => {
+      let si = 0;
+      splitBlocks(p.en).forEach((block) => {
+        block.sentences.forEach((s) => {
+          const idx = si++;
+          n += 1;
+          writeIndex[pi + "-" + idx] = {
+            n,
+            pi,
+            en: s,
+            ko: (p.koSents || [])[idx] || "",
+            speaker: block.speaker,
+            title: p.title,
+          };
+        });
+      });
+    });
+  }
+
+  function canonEn(s) {
+    const alias = { kg: "kilogram", kgs: "kilogram", kilogram: "kilogram", kilograms: "kilogram", liter: "liter", liters: "liter", litre: "liter", litres: "liter" };
+    const fixed = {
+      "i'm": "i am",
+      "you're": "you are",
+      "we're": "we are",
+      "they're": "they are",
+      "he's": "he is",
+      "she's": "she is",
+      "it's": "it is",
+      "that's": "that is",
+      "there's": "there is",
+      "let's": "let us",
+      "can't": "can not",
+      "won't": "will not",
+      cannot: "can not",
+    };
+    return String(s || "")
+      .replace(/\[[^\]]*\]/g, " ")
+      .toLowerCase()
+      .replace(/[’‘]/g, "'")
+      .replace(/[“”]/g, " ")
+      .replace(/(\d),(\d)/g, "$1$2")
+      .replace(/-/g, " ")
+      .replace(/[^a-z0-9'\s\uac00-\ud7a3]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .split(" ")
+      .filter(Boolean)
+      .flatMap((tok) => {
+        const mapped = fixed[tok] || (tok.endsWith("n't") ? tok.slice(0, -3) + " not" : tok);
+        return mapped.split(" ").map((w) => alias[w] || w);
+      })
+      .join(" ");
+  }
+
+  function tokenDistance(a, b) {
+    const ta = a ? a.split(" ") : [];
+    const tb = b ? b.split(" ") : [];
+    const rows = ta.length + 1;
+    const cols = tb.length + 1;
+    const dp = Array.from({ length: rows }, () => new Array(cols).fill(0));
+    for (let i = 0; i < rows; i++) dp[i][0] = i;
+    for (let j = 0; j < cols; j++) dp[0][j] = j;
+    for (let i = 1; i < rows; i++) {
+      for (let j = 1; j < cols; j++) {
+        const cost = ta[i - 1] === tb[j - 1] ? 0 : 1;
+        dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+      }
+    }
+    return dp[ta.length][tb.length];
+  }
+
+  function gradeText(typed, answer) {
+    const got = canonEn(typed);
+    const want = canonEn(answer);
+    if (!got) return "";
+    if (got === want) return "ok";
+    const dist = tokenDistance(got, want);
+    const denom = Math.max(got.split(" ").length, want.split(" ").length, 1);
+    return 1 - dist / denom >= 0.84 ? "close" : "ng";
+  }
+
+  function writeStats() {
+    const keys = Object.keys(writeIndex);
+    let ok = 0;
+    let close = 0;
+    keys.forEach((k) => {
+      const d = writeDrafts[k];
+      if (!d) return;
+      if (d.status === "ok") ok += 1;
+      else if (d.status === "close") close += 1;
+    });
+    return { total: keys.length, ok, close };
+  }
+
+  function scoreText() {
+    const s = writeStats();
+    return `맞음 ${s.ok} / ${s.total}문장${s.close ? ` · 거의 ${s.close}` : ""}`;
+  }
+
+  function feedbackHtml(item, draft) {
+    if (!draft || (!draft.status && !draft.revealed)) return "";
+    const showModel = draft.revealed || draft.status === "ok" || draft.status === "close";
+    let html = "";
+    if (draft.status === "close" && draft.text) {
+      html += `<p class="write-mine"><span class="mini-label">내가 쓴 문장</span> ${esc(draft.text)}</p>`;
+    }
+    if (showModel) {
+      html += `<p class="write-model"><span class="mini-label">본문</span> ${highlightVocab(item.en)}</p>`;
+    } else if (draft.status === "ng") {
+      html += `<p class="muted" style="margin:0">아직 본문과 달라요. 고친 뒤 다시 확인하거나 정답을 열어 보세요.</p>`;
+    }
+    return html;
+  }
+
+  function paintWriteCard(key) {
+    const card = document.querySelector(`.write-card[data-key="${key}"]`);
+    const item = writeIndex[key];
+    if (!card || !item) return;
+    const draft = writeDrafts[key] || {};
+    card.dataset.status = draft.status || "";
+    const badge = card.querySelector(".write-badge");
+    badge.className = "write-badge" + (draft.status ? " " + draft.status : "");
+    badge.textContent = draft.status === "ok" ? "맞았어요" : draft.status === "close" ? "거의 맞아요" : draft.status === "ng" ? "다시 확인해 보세요" : "";
+    const reveal = card.querySelector(".write-reveal");
+    if (reveal) reveal.textContent = draft.revealed ? "정답 숨기기" : "정답 보기";
+    const box = card.querySelector(".write-feedback");
+    if (box) box.innerHTML = feedbackHtml(item, draft);
+  }
+
+  function paintWriteScore() {
+    const el = document.getElementById("write-score");
+    if (el) el.textContent = scoreText();
+  }
+
+  function readWriteText(key) {
+    const el = document.querySelector(`.write-input[data-key="${key}"]`);
+    if (!writeDrafts[key]) writeDrafts[key] = {};
+    if (el) writeDrafts[key].text = el.value;
+    return writeDrafts[key].text || "";
+  }
+
+  function gradeWrite(key, keepFocus) {
+    const item = writeIndex[key];
+    if (!item) return;
+    const text = readWriteText(key);
+    if (!String(text).trim()) {
+      writeDrafts[key].status = "";
+      saveWrite();
+      paintWriteCard(key);
+      paintWriteScore();
+      return;
+    }
+    writeDrafts[key].status = gradeText(text, item.en);
+    saveWrite();
+    paintWriteCard(key);
+    paintWriteScore();
+    if (!keepFocus && writeDrafts[key].status === "ok") {
+      const keys = Object.keys(writeIndex);
+      const nextKey = keys.slice(keys.indexOf(key) + 1).find((k) => {
+        const node = document.querySelector(`.write-input[data-key="${k}"]`);
+        return node && !node.value.trim();
+      });
+      const next = nextKey && document.querySelector(`.write-input[data-key="${nextKey}"]`);
+      if (next) next.focus();
+    }
+  }
+
+  function toggleReveal(key) {
+    const item = writeIndex[key];
+    if (!item) return;
+    if (!writeDrafts[key]) writeDrafts[key] = {};
+    readWriteText(key);
+    writeDrafts[key].revealed = !writeDrafts[key].revealed;
+    saveWrite();
+    paintWriteCard(key);
+  }
+
+  function checkAllWrite() {
+    Object.keys(writeIndex).forEach((key) => {
+      if (!readWriteText(key).trim()) return;
+      gradeWrite(key, true);
+    });
+  }
+
+  function clearWrite() {
+    const hasText = Object.keys(writeIndex).some((key) => readWriteText(key).trim());
+    if (hasText && !window.confirm("적은 영어를 모두 지울까요?")) return;
+    writeDrafts = {};
+    saveWrite();
+    renderPassage();
+  }
+
+  function renderWriteSheet() {
+    rebuildWriteIndex();
+    const d = cur();
+    const cast = d.cast ? `<div class="book-cast">${d.cast.map((c) => `<span>${esc(c)}</span>`).join("")}</div>` : "";
+    let lastPi = -1;
+    const cards = Object.keys(writeIndex)
+      .map((key) => {
+        const it = writeIndex[key];
+        const draft = writeDrafts[key] || {};
+        const head = it.pi !== lastPi ? ((lastPi = it.pi), `<h3 class="write-para">${esc(it.title)}</h3>`) : "";
+        const status = draft.status || "";
+        const badge = status === "ok" ? "맞았어요" : status === "close" ? "거의 맞아요" : status === "ng" ? "다시 확인해 보세요" : "";
+        return `${head}
+          <div class="write-card" data-key="${key}" data-status="${status}">
+            <p class="write-ko">${it.speaker ? `<span class="write-speaker">${esc(it.speaker)}</span>` : ""}<sup class="sn">${it.n}</sup>${esc(it.ko || "이 문장의 해석이 없어요.")}</p>
+            <textarea class="write-input" data-key="${key}" rows="2" placeholder="이 한국말을 영어로 써 보세요">${esc(draft.text || "")}</textarea>
+            <div class="write-actions">
+              <button type="button" class="btn write-check" style="height:34px" data-key="${key}">확인</button>
+              <button type="button" class="btn outline write-reveal" style="height:34px" data-key="${key}">${draft.revealed ? "정답 숨기기" : "정답 보기"}</button>
+              <span class="write-badge ${status}">${badge}</span>
+            </div>
+            <div class="write-feedback">${feedbackHtml(it, draft)}</div>
+          </div>`;
+      })
+      .join("");
+    return `${cast}
+      <div class="write-bar">
+        <p class="write-score" id="write-score">${scoreText()}</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button type="button" class="btn write-check-all" style="height:34px">모두 확인</button>
+          <button type="button" class="btn outline write-clear" style="height:34px">입력 지우기</button>
+        </div>
+      </div>
+      <div class="write-sheet">${cards}</div>`;
   }
 
   function hashStr(s) {
@@ -222,7 +490,9 @@
 
   function renderPassage() {
     const d = cur();
-    const glossOn = showKo || blankMode;
+    if (writeMode && !canWrite()) writeMode = false;
+    const writing = writeMode && canWrite();
+    const glossOn = !writing && (showKo || blankMode);
     const hasText = paragraphs.some((p) => String(p.en || "").trim());
     let n = 0;
     const body = hasText
@@ -265,24 +535,26 @@
           </div>`
         : "";
 
+    const hint = writing
+      ? "한국말만 보고 같은 뜻의 영어 문장을 써 보세요. 확인을 누르면 본문과 비교해요."
+      : blankMode
+        ? "아래 한국말을 보고 가려진 영어를 떠올려 보세요. 빈칸을 누르면 답이 나와요."
+        : `문장이나 <mark class="vocab">초록색 단어</mark>를 누르면 옆에 설명이 나와요.`;
+
     document.getElementById("l5-passage").innerHTML = `
       <div class="passage-toolbar">
-        <p class="muted" style="margin:0">${
-          blankMode
-            ? "아래 한국말을 보고 가려진 영어를 떠올려 보세요. 빈칸을 누르면 답이 나와요."
-            : `문장이나 <mark class="vocab">초록색 단어</mark>를 누르면 옆에 설명이 나와요.`
-        }</p>
+        <p class="muted" style="margin:0">${hint}</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn ${showKo ? "" : "outline"}" type="button" style="height:36px" onclick="L5.toggleKo()">${showKo ? "해석 숨기기" : "해석 보기"}</button>
+          <button class="btn ${!writing && showKo ? "" : "outline"}" type="button" style="height:36px" onclick="L5.toggleKo()">${!writing && showKo ? "해석 숨기기" : "해석 보기"}</button>
           <button class="btn ${blankMode ? "" : "outline"}" type="button" style="height:36px" onclick="L5.toggleBlank()">${blankMode ? "빈칸 끄기" : "빈칸 연습"}</button>
+          ${canWrite() ? `<button class="btn ${writing ? "" : "outline"}" type="button" style="height:36px" onclick="L5.toggleWrite()">${writing ? "영작 끄기" : "영작 연습"}</button>` : ""}
           <button class="btn outline" type="button" style="height:36px" onclick="L5.openOverview()">문법 · 단어 보기</button>
         </div>
       </div>
-      <article class="book-page">
+      <article class="book-page${writing ? " write-page" : ""}">
         <span class="book-tag">Topic 3</span>
         <h2 class="book-title">${esc(d.title)}</h2>
-        ${body}
-        ${checks}
+        ${writing ? renderWriteSheet() : body + checks}
       </article>`;
   }
 
@@ -453,7 +725,38 @@
 
   function bindPassageClicks() {
     const root = document.getElementById("l5-passage");
+    root.addEventListener("input", (e) => {
+      const input = e.target.closest(".write-input");
+      if (!input) return;
+      const key = input.dataset.key;
+      if (!writeDrafts[key]) writeDrafts[key] = {};
+      writeDrafts[key].text = input.value;
+      if (writeDrafts[key].status) {
+        writeDrafts[key].status = "";
+        paintWriteCard(key);
+        paintWriteScore();
+      }
+      saveWrite();
+    });
     root.addEventListener("click", (e) => {
+      const checkBtn = e.target.closest(".write-check");
+      if (checkBtn) {
+        gradeWrite(checkBtn.dataset.key);
+        return;
+      }
+      const revealBtn = e.target.closest(".write-reveal");
+      if (revealBtn) {
+        toggleReveal(revealBtn.dataset.key);
+        return;
+      }
+      if (e.target.closest(".write-check-all")) {
+        checkAllWrite();
+        return;
+      }
+      if (e.target.closest(".write-clear")) {
+        clearWrite();
+        return;
+      }
       const blank = e.target.closest(".word-blank");
       if (blank) {
         e.preventDefault();
@@ -467,7 +770,7 @@
         return;
       }
       const mark = e.target.closest("mark.vocab");
-      if (mark && mark.closest(".sent")) {
+      if (mark && (mark.closest(".sent") || mark.closest(".write-feedback"))) {
         e.stopPropagation();
         openWord(mark.textContent);
         return;
@@ -476,7 +779,13 @@
       if (row) openSentence(Number(row.dataset.p), Number(row.dataset.s));
     });
     root.addEventListener("keydown", (e) => {
-      if (e.target.closest(".word-blank")) return;
+      const writing = e.target.closest(".write-input");
+      if (writing && e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        gradeWrite(writing.dataset.key);
+        return;
+      }
+      if (e.target.closest(".word-blank") || writing) return;
       const row = e.target.closest(".sent");
       if (row && (e.key === "Enter" || e.key === " ")) {
         e.preventDefault();
@@ -843,6 +1152,7 @@
 
   function init() {
     paragraphs = cur().paragraphs;
+    loadWrite();
     quiz = loadQuiz();
     wq = null;
     buildVocabRegex();
@@ -860,6 +1170,7 @@
     checkAnswer,
     toggleKo,
     toggleBlank,
+    toggleWrite,
     openOverview,
     closeDrawer,
     speak,

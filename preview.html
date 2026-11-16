@@ -505,6 +505,73 @@
       border-bottom-color: #3d7a5f;
     }
     .word-blank.revealed:hover { background: #d8eee2; }
+    .write-page { padding-bottom: 28px; }
+    .write-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 0 0 8px;
+    }
+    .write-score { margin: 0; font-size: 14px; font-weight: 650; color: #245743; }
+    .write-para {
+      margin: 18px 0 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #8a3a20;
+    }
+    .write-card {
+      background: #fff;
+      border: 1px solid #eadfcd;
+      border-radius: 14px;
+      padding: 12px 14px 14px;
+      margin-bottom: 10px;
+    }
+    .write-card[data-status="ok"] { border-color: #8fcdb0; background: #f4fbf7; }
+    .write-card[data-status="close"] { border-color: #e3c27a; background: #fffaf0; }
+    .write-card[data-status="ng"] { border-color: #e7b4ae; background: #fff8f7; }
+    .write-ko {
+      margin: 0 0 8px;
+      font-family: Pretendard, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      color: #1f3d32;
+    }
+    .write-speaker {
+      display: inline-block;
+      margin-right: 8px;
+      padding: 1px 7px;
+      border-radius: 6px;
+      background: #fbe7d9;
+      color: #c2492b;
+      font-size: 12px;
+      font-weight: 700;
+      vertical-align: 1px;
+    }
+    .write-page textarea.write-input {
+      width: 100%;
+      min-height: 64px;
+      margin: 0;
+      padding: 10px 12px;
+      border: 1px solid #e2d3bb;
+      border-radius: 10px;
+      background: #fffdf8;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 17px;
+      line-height: 1.5;
+      resize: vertical;
+    }
+    .write-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .write-badge { font-size: 13px; font-weight: 700; }
+    .write-badge.ok { color: #067647; }
+    .write-badge.close { color: #9a6700; }
+    .write-badge.ng { color: #b42318; }
+    .write-feedback { margin-top: 8px; }
+    .write-mine, .write-model { margin: 0 0 4px; font-size: 15px; line-height: 1.6; }
+    .write-mine { color: #6b6258; }
+    .write-model { font-family: Georgia, "Times New Roman", serif; font-size: 17px; color: #245743; }
+    .write-feedback .mini-label { display: block; margin: 0 0 2px; }
     .speaker {
       flex-shrink: 0;
       min-width: 86px;
@@ -863,7 +930,7 @@
   <script src="preview-lesson8.js?v=20261026c"></script>
   <script src="preview-understanding.js?v=20261026c"></script>
   <script src="preview-passage-words.js?v=20261026c"></script>
-  <script src="preview-lessons-app.js?v=20261026e"></script>
+  <script src="preview-lessons-app.js?v=20261116a"></script>
   <script src="preview-homework.js?v=20261102a"></script>
   <script>
     const WORD_GROUPS = [
